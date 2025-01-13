@@ -20,7 +20,6 @@ namespace LogisticsManagementSystem.Repository
         {
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity), "Entity cannot be null.");
-            Console.WriteLine(entity.ToString());
             await _context.Set<T>().AddAsync(entity);
             await _context.SaveChangesAsync();
         }
@@ -54,7 +53,7 @@ namespace LogisticsManagementSystem.Repository
         public async Task UpdateAsync(T entity)
         {
             if (entity == null)
-                throw new ArgumentNullException(nameof(entity), "Entity cannot be null.");
+                throw new ArgumentNullException(nameof(entity), "Entity cannot be null...");
 
             _context.Set<T>().Update(entity);
             await _context.SaveChangesAsync();

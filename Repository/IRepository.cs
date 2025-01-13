@@ -8,10 +8,5 @@
         Task<T> GetByIdAsync(int id);
         IQueryable<T> Query();
         Task UpdateAsync(T entity);
-
-        //Task SaveChangesAsync();
-        //Task BeginTransactionAsync();
-        //Task CommitTransactionAsync();
-        //Task RollbackTransactionAsync();
     }
 }
