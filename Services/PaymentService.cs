@@ -47,7 +47,6 @@ namespace LogisticsManagementSystem.Services
             existingPayment.Amount = updatedPayment.Amount;
             existingPayment.PaymentDate = updatedPayment.PaymentDate;
             existingPayment.ShipemntId = updatedPayment.ShipemntId;
-            existingPayment.PaymentMethodId = updatedPayment.PaymentMethodId;
 
             await _paymentRepository.UpdateAsync(existingPayment);
         }

@@ -16,12 +16,13 @@ namespace LogisticsManagementSystem.Repository
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task AddAsync(T entity)
+        public async Task<T> AddAsync(T entity)
         {
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity), "Entity cannot be null.");
             await _context.Set<T>().AddAsync(entity);
             await _context.SaveChangesAsync();
+            return entity;
         }
         public async Task DeleteAsync(int id)
         {

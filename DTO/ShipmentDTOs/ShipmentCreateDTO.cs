@@ -29,7 +29,6 @@ namespace LogisticsManagementSystem.DTO.ShipmentDTOs
         #endregion
 
         #region Payment Details
-        public int? PaymentMethodId { get; set; } 
         public PaymentStatus PaymentStatus { get; set; } = PaymentStatus.Pending;
         #endregion
     }

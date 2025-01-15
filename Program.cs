@@ -16,7 +16,7 @@ namespace LogisticsManagementSystem
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Register repositories
+            #region Register repositories
             builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
             builder.Services.AddScoped<Services.CustomerService>();
             builder.Services.AddScoped<IRepository<Models.Customer>, Repository<Models.Customer>>();
@@ -35,7 +35,10 @@ namespace LogisticsManagementSystem
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             builder.Services.AddScoped<Models.StripeOptions>();
+            builder.Services.AddScoped<Services.PaymentService>();
+            #endregion
 
+           
             builder.Services.AddOptions<StripeOptions>()
                 .Bind(builder.Configuration.GetSection("Stripe"));
 
@@ -51,7 +54,8 @@ namespace LogisticsManagementSystem
                 options => options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString"))
             );
 
-            //---------------------Security----------------------------------------
+
+            #region Identity and JWT
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<LogisticsManagementContext>();
 
@@ -74,7 +78,7 @@ namespace LogisticsManagementSystem
                 };
             });
 
-            // ----------------------------------------------------------------
+            #endregion
 
             // Cors Services
             builder.Services.AddCors(options =>
@@ -105,10 +109,10 @@ namespace LogisticsManagementSystem
                 app.UseSwaggerUI();
             }
 
+            app.UseCors("MyPolicy");
             app.UseAuthorization();
 
             app.UseStaticFiles();
-            app.UseCors("MyPolicy");
             app.MapControllers();
 
             app.Run();

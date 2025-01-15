@@ -9,7 +9,7 @@ namespace LogisticsManagementSystem.Repository
         {
         }
 
-        public async Task<ShipmentMethod?> GetCustomerByNameAsync(string name)
+        public async Task<ShipmentMethod?> GetShipmentMethodByNameAsync(string name)
         {
             return await _context.ShipmentMethods.FirstOrDefaultAsync(m => m.Name == name);
         }

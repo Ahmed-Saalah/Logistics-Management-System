@@ -34,8 +34,8 @@ namespace LogisticsManagementSystem.Controllers
                     ShipmentId = shipemnt.ShipmentId,
                     ShipperName = shipemnt.ShipperName,
                     ReceiverName = shipemnt.ReceiverName,
-                    CreatedAt = shipemnt.CreatedAt,
-                    Status = shipemnt.Status
+                    CreatedAt = shipemnt.CreatedAt.Value,
+                    Status = shipemnt.Status.Value
                 };
 
                 return Ok(shipmentDTO);
@@ -61,8 +61,8 @@ namespace LogisticsManagementSystem.Controllers
                     ShipmentId = shipemnt.ShipmentId,
                     ShipperName = shipemnt.ShipperName,
                     ReceiverName = shipemnt.ReceiverName,
-                    CreatedAt = shipemnt.CreatedAt,
-                    Status = shipemnt.Status
+                    CreatedAt = shipemnt.CreatedAt.Value,
+                    Status = shipemnt.Status.Value
                 };
 
                 return Ok(shipmentDTO);
@@ -97,8 +97,10 @@ namespace LogisticsManagementSystem.Controllers
 
                 var shipment = await _shipmentService.CreateShipmentAsync(shipmentCreateDTO, customerId.Value);
 
-                return CreatedAtAction(nameof(GetById), new { id = shipment.Shipment.ShipmentId }, shipment);
+                //return CreatedAtAction(nameof(GetById), new { id = shipment.ShipmentId }, shipment);
+                return Ok(shipment);
             }
+
             catch (ArgumentException ex)
             {
                 return BadRequest(new { Message = ex.Message });

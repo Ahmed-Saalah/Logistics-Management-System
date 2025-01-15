@@ -23,9 +23,9 @@
         public int Quantity { get; set; }
         public decimal Weight { get; set; }
         public string? Description { get; set; }
-        public ShipmentStatus Status { get; set; }
+        public ShipmentStatus? Status { get; set; }
         public string? TrackingNumber { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime? CreatedAt { get; set; } = DateTime.Now;
         #endregion
 
         public int CustomerId { get; set; }

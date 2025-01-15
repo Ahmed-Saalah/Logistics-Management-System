@@ -4,7 +4,7 @@ namespace LogisticsManagementSystem.Repository
 {
     public interface IShipmentMethodRepository : IRepository<ShipmentMethod>
     {
-        Task<ShipmentMethod?> GetCustomerByNameAsync(string name);
+        Task<ShipmentMethod?> GetShipmentMethodByNameAsync(string name);
         Task<ShipmentMethod> GetAsync(Func<ShipmentMethod, bool> predicate);
     }
 }

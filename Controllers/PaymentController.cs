@@ -1,10 +1,8 @@
-﻿using LogisticsManagementSystem.DTO.PaymentDTOs;
-using LogisticsManagementSystem.Models;
+﻿using LogisticsManagementSystem.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Stripe;
 using Stripe.Checkout;
-using System;
 
 namespace LogisticsManagementSystem.Controllers
 {
@@ -14,27 +12,54 @@ namespace LogisticsManagementSystem.Controllers
     {
         private readonly StripeOptions _stripeOptions;
         private readonly Services.CustomerService _customerService;
-        public PaymentController(IOptionsSnapshot<StripeOptions> stripeOptions, Services.CustomerService customerService)
+        private readonly Services.ShipmentService _shipmentService;
+        private readonly Services.PaymentService _paymentService;
+        public PaymentController(IOptionsSnapshot<StripeOptions> stripeOptions, Services.CustomerService customerService, Services.ShipmentService shipmentService, Services.PaymentService paymentService)
         {
             _stripeOptions = stripeOptions.Value;
             _customerService = customerService;
+            _shipmentService = shipmentService;
+            _paymentService = paymentService;
         }
 
+       
         [HttpPost]
-
-        public async Task<IActionResult> Pay(PaymentRequestDTO paymentRequestDTO)
+        public async Task<IActionResult> CreatePayment([FromBody] Payment payment)
         {
-            var origin = $"{Request.Scheme}://{Request.Host}";
+            try
+            {
+                if (!payment.ShipemntId.HasValue)
+                {
+                    return BadRequest(new { Message = "ShipmentId is required." });
+                }
 
-            StripeConfiguration.ApiKey = _stripeOptions.SecretKey;
+                var shipment = await _shipmentService.GetByIdAsync(payment.ShipemntId.Value);
 
-            var stripeSessionService = new SessionService();
+                if (shipment == null)
+                {
+                    return NotFound(new { Message = "Shipment not found." });
+                }
 
-            var stripeCheckOutSession = await stripeSessionService.CreateAsync(
+                payment.Amount = (shipment.Quantity * shipment.Weight) + shipment.ShipmentMethod.Cost;
+
+                var createdPayment = await _paymentService.CreatePaymentAsync(payment);
+
+                shipment.PaymentId = createdPayment.PaymentId;
+                
+                await _shipmentService.Update(shipment);
+
+                // Prepare Stripe Session
+                var origin = $"{Request.Scheme}://{Request.Host}";
+
+                StripeConfiguration.ApiKey = _stripeOptions.SecretKey;
+
+                var stripeSessionService = new SessionService();
+
+                var stripeCheckOutSession = await stripeSessionService.CreateAsync(
                 new SessionCreateOptions
                 {
                     Mode = "payment",
-                    ClientReferenceId = paymentRequestDTO.ShipmentId.ToString(),
+                    ClientReferenceId = shipment.ShipmentId.ToString(),
                     SuccessUrl = $"{origin}/confirmation.html",
                     CancelUrl = $"{origin}/index.html",
                     LineItems = new()
@@ -48,14 +73,25 @@ namespace LogisticsManagementSystem.Controllers
                                 {
                                     Name = "Shipment"
                                 },
-                                UnitAmountDecimal = paymentRequestDTO.Amount * 100
+                                UnitAmountDecimal = payment.Amount * 100
                             },
                             Quantity = 1
                         }
                     }
                 });
 
-            return Ok(new { redirectUrl = stripeCheckOutSession.Url });
+                return Ok(new
+                {
+                    Message = "Payment successfully created.",
+                    PaymentId = createdPayment.PaymentId,
+                    TotalAmount = payment.Amount,
+                    CheckoutUrl = stripeCheckOutSession.Url
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Message = "An error occurred.", Error = ex.Message });
+            }
         }
 
     }

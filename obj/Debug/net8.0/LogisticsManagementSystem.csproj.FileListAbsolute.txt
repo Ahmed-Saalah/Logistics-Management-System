@@ -140,3 +140,4 @@ D:\LogisticsManagementSystem\obj\Debug\net8.0\refint\LogisticsManagementSystem.d
 D:\LogisticsManagementSystem\obj\Debug\net8.0\LogisticsManagementSystem.pdb
 D:\LogisticsManagementSystem\obj\Debug\net8.0\LogisticsManagementSystem.genruntimeconfig.cache
 D:\LogisticsManagementSystem\obj\Debug\net8.0\ref\LogisticsManagementSystem.dll
+D:\LogisticsManagementSystem\obj\Debug\net8.0\LogisticsManagementSystem.sourcelink.json

@@ -18,13 +18,26 @@ namespace LogisticsManagementSystem.Repository
         }
 
         // Override the Add method to generate a tracking number when a shipment is added
-        public new async Task AddAsync(Shipment shipment)
+        public new async Task<Shipment> AddAsync(Shipment shipment)
         {
             // Generate and assign the tracking number
             shipment.TrackingNumber = GenerateTrackingNumber();
             shipment.CreatedAt = DateTime.UtcNow;
 
             await base.AddAsync(shipment);
+            return shipment;
+        }
+
+        public new async Task<Shipment> GetByIdAsync(int id)
+        {
+            var entity = await _context.Shipments
+                .Include(s => s.ShipmentMethod)
+                .FirstOrDefaultAsync(s => s.ShipmentId == id);
+
+            if (entity == null)
+                throw new KeyNotFoundException($"Entity with ID {id} not found.");
+
+            return entity;
         }
 
         public async Task<Shipment> GetShipmentByTrackingNumberAsync(string trackingNumber)

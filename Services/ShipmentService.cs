@@ -20,9 +20,10 @@ namespace LogisticsManagementSystem.Services
             _stripePaymentService = stripePaymentService;
         }
 
-        public async Task<ShipmentWithPaymentDTO> CreateShipmentAsync(ShipmentCreateDTO shipmentCreateDTO, int customerId)
+        public async Task<Shipment> CreateShipmentAsync(ShipmentCreateDTO shipmentCreateDTO, int customerId)
         {
             ShipmentMethod shipmentMethod = null;
+
             if (shipmentCreateDTO.ShipmentMethodId.HasValue)
             {
                 shipmentMethod = await _shipmentMethodRepository.GetAsync(sm => sm.ShipmentMethodID == shipmentCreateDTO.ShipmentMethodId);
@@ -30,7 +31,7 @@ namespace LogisticsManagementSystem.Services
 
             if (shipmentMethod == null)
             {
-                shipmentMethod = await _shipmentMethodRepository.GetCustomerByNameAsync("Standard");
+                shipmentMethod = await _shipmentMethodRepository.GetShipmentMethodByNameAsync("Standard");
             }
 
             if (shipmentMethod == null)
@@ -68,37 +69,9 @@ namespace LogisticsManagementSystem.Services
                     ShipmentMethod = shipmentMethod
                 };
 
-                await _shipmentRepository.AddAsync(shipment);
-                decimal totalAmount = (shipment.Quantity * shipment.Weight) + shipment.ShipmentMethod.Cost;
-
-                var paymentIntentService = new PaymentIntentService();
-
-                var paymentIntent = await paymentIntentService.CreateAsync(new PaymentIntentCreateOptions
-                {
-                    Amount = (long)(totalAmount * 100), 
-                    Currency = "usd",
-                    PaymentMethodTypes = new List<string> { "card" },
-                });
-
-                var payment = new Payment
-                {
-                    Amount = totalAmount,
-                    PaymentDate = DateTime.UtcNow,
-                    ShipemntId = shipment.ShipmentId,
-                    PaymentMethodId = shipmentCreateDTO.PaymentMethodId
-                };
-
-                await _paymentRepository.AddAsync(payment);
-
-                shipment.PaymentId = payment.PaymentId;
-
-                await _shipmentRepository.UpdateAsync(shipment);
-
-                return new ShipmentWithPaymentDTO
-                {
-                    Shipment = shipment,
-                    PaymentClientSecret = paymentIntent.ClientSecret
-                };
+                var createdShipment =  await _shipmentRepository.AddAsync(shipment); 
+                
+                return createdShipment;
             }
             catch
             {
@@ -149,5 +122,15 @@ namespace LogisticsManagementSystem.Services
             }
         }
 
+    
+        public async Task Update(Shipment shipment)
+        {
+            var existingShipment = await _shipmentRepository.GetByIdAsync(shipment.ShipmentId);
+
+            if (existingShipment == null)
+                throw new ArgumentException($"Shipment with ID {shipment.ShipmentId} not found.");
+
+            await _shipmentRepository.UpdateAsync(existingShipment);
+        }
     }
 }
