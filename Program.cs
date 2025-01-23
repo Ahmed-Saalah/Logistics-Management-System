@@ -32,10 +32,10 @@ namespace LogisticsManagementSystem
 
             builder.Services.AddScoped<StripePaymentService>(); 
             builder.Services.AddScoped<ShipmentService>();
-            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             builder.Services.AddScoped<Models.StripeOptions>();
             builder.Services.AddScoped<Services.PaymentService>();
+            builder.Services.AddScoped<ShipmentMethodService>();
             #endregion
 
            

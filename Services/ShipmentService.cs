@@ -1,7 +1,6 @@
 ﻿using LogisticsManagementSystem.DTO.ShipmentDTOs;
 using LogisticsManagementSystem.Models;
 using LogisticsManagementSystem.Repository;
-using Stripe;
 
 namespace LogisticsManagementSystem.Services
 {
@@ -122,7 +121,6 @@ namespace LogisticsManagementSystem.Services
             }
         }
 
-    
         public async Task Update(Shipment shipment)
         {
             var existingShipment = await _shipmentRepository.GetByIdAsync(shipment.ShipmentId);
@@ -132,5 +130,12 @@ namespace LogisticsManagementSystem.Services
 
             await _shipmentRepository.UpdateAsync(existingShipment);
         }
+    
+        
+        public async Task<decimal> GetTotalCost(int quantity, decimal weight, decimal shipmentMethodCost)
+        {
+            return (weight * quantity) + shipmentMethodCost;
+        }
+    
     }
 }

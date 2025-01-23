@@ -17,5 +17,11 @@ namespace LogisticsManagementSystem.Repository
         {
             return await Task.Run(() => _context.ShipmentMethods.FirstOrDefault(predicate));
         }
+
+        public async Task<ShipmentMethod> GetByIdAsync(int id)
+        {
+            var entity = await _context.Set<ShipmentMethod>().FindAsync(id);
+            return entity;
+        }
     }
 }

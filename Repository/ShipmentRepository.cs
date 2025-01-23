@@ -11,16 +11,14 @@ namespace LogisticsManagementSystem.Repository
 
         private string GenerateTrackingNumber()
         {
-            var prefix = "TRK"; // Optional: Customize the prefix for tracking numbers
-            var timestamp = DateTime.UtcNow.ToString("yyyyMMddHHmmss"); // Timestamp for uniqueness
-            var randomSuffix = Guid.NewGuid().ToString().Substring(0, 8).ToUpper(); // 8-character random string
+            var prefix = "TRK"; 
+            var timestamp = DateTime.UtcNow.ToString("yyyyMMddHHmmss"); 
+            var randomSuffix = Guid.NewGuid().ToString().Substring(0, 8).ToUpper();
             return $"{prefix}-{timestamp}-{randomSuffix}";
         }
 
-        // Override the Add method to generate a tracking number when a shipment is added
         public new async Task<Shipment> AddAsync(Shipment shipment)
         {
-            // Generate and assign the tracking number
             shipment.TrackingNumber = GenerateTrackingNumber();
             shipment.CreatedAt = DateTime.UtcNow;
 
@@ -34,8 +32,7 @@ namespace LogisticsManagementSystem.Repository
                 .Include(s => s.ShipmentMethod)
                 .FirstOrDefaultAsync(s => s.ShipmentId == id);
 
-            if (entity == null)
-                throw new KeyNotFoundException($"Entity with ID {id} not found.");
+            
 
             return entity;
         }

@@ -11,13 +11,11 @@ namespace LogisticsManagementSystem.Controllers
     public class PaymentController : ControllerBase
     {
         private readonly StripeOptions _stripeOptions;
-        private readonly Services.CustomerService _customerService;
         private readonly Services.ShipmentService _shipmentService;
         private readonly Services.PaymentService _paymentService;
-        public PaymentController(IOptionsSnapshot<StripeOptions> stripeOptions, Services.CustomerService customerService, Services.ShipmentService shipmentService, Services.PaymentService paymentService)
+        public PaymentController(IOptionsSnapshot<StripeOptions> stripeOptions, Services.ShipmentService shipmentService, Services.PaymentService paymentService)
         {
             _stripeOptions = stripeOptions.Value;
-            _customerService = customerService;
             _shipmentService = shipmentService;
             _paymentService = paymentService;
         }

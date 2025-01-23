@@ -2,7 +2,6 @@
 using LogisticsManagementSystem.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace LogisticsManagementSystem.Controllers
 {
@@ -12,10 +11,12 @@ namespace LogisticsManagementSystem.Controllers
     {
         private readonly ShipmentService _shipmentService;
         private readonly CustomerService _customerService;
-        public ShipmentController(ShipmentService shipmentService, CustomerService customerService)
+        private readonly ShipmentMethodService _shipmentMethodService;
+        public ShipmentController(ShipmentService shipmentService, CustomerService customerService, ShipmentMethodService shipmentMethodService)
         {
             _shipmentService = shipmentService;
             _customerService = customerService;
+            _shipmentMethodService = shipmentMethodService;
         }
 
 
@@ -148,6 +149,39 @@ namespace LogisticsManagementSystem.Controllers
                 return StatusCode(500, new { Message = "An error occurred while deleting the shipment.", Error = ex.Message });
             }
         }
+
+
+        /// <summary>
+        /// Rate Calculator API
+        /// inquire about shipping rate and provide customers with real time rates.
+        /// </summary>
+
+        [HttpPost("rateCalculator")]
+        public async Task<IActionResult> RateCalculatorAsync([FromBody] ShipmentWithRateDTO shipment)
+        {
+            try
+            {
+                if (shipment.Quantity <= 0 || shipment.Weight <= 0)
+                {
+                    return BadRequest("Invalid input parameters.");
+                }
+
+                var shipmentMethodCost = await _shipmentMethodService.GetShipmentMethodCostAsync(shipment.ShipmentMethodId);
+                if (shipmentMethodCost == 0)
+                {
+                    return NotFound("Shipment method not found.");
+                }
+
+                var totalCost = await _shipmentService.GetTotalCost(shipment.Quantity, shipment.Weight, shipmentMethodCost);
+
+                return Ok(new { totalCost });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
 
     }
 }
