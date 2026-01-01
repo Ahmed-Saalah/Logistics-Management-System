@@ -35,6 +35,7 @@ namespace LogisticsManagementSystem.configurations
             builder.Property(s => s.ReceiverCity).HasMaxLength(20);
 
             builder.Property(s => s.ReceiverStreet).HasMaxLength(20);
+            builder.Property(s => s.Weight).HasPrecision(18, 2);
 
             builder
                 .HasOne(s => s.User)

@@ -10,6 +10,6 @@
         public int UserrId { get; set; }
         public DateTime CreatedAt { get; set; }
         public Shipment? Shipment { get; set; }
-        public User Customer { get; set; }
+        public User? User { get; set; }
     }
 }

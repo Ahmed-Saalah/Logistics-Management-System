@@ -10,7 +10,7 @@ namespace LogisticsManagementSystem.configurations
         {
             builder.HasKey(p => p.PaymentId);
 
-            builder.Property(p => p.Amount).IsRequired();
+            builder.Property(p => p.Amount).IsRequired().HasPrecision(18, 2);
 
             builder
                 .HasOne(p => p.Shipment)
@@ -19,7 +19,7 @@ namespace LogisticsManagementSystem.configurations
                 .OnDelete(DeleteBehavior.SetNull);
 
             builder
-                .HasOne(p => p.Customer)
+                .HasOne(p => p.User)
                 .WithMany()
                 .HasForeignKey(p => p.UserrId)
                 .OnDelete(DeleteBehavior.Restrict);

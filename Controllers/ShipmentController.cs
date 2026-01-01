@@ -219,7 +219,7 @@ namespace LogisticsManagementSystem.Controllers
                     shipment.ShipmentMethodId
                 );
 
-                var totalCost = await _shipmentService.GetTotalCost(
+                var totalCost = _shipmentService.GetTotalCost(
                     shipment.Quantity,
                     shipment.Weight,
                     shipmentMethodCost

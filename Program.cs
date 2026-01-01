@@ -58,7 +58,7 @@ namespace LogisticsManagementSystem
 
             #region Identity and JWT
             builder
-                .Services.AddIdentity<User, IdentityRole>()
+                .Services.AddIdentity<User, IdentityRole<int>>()
                 .AddEntityFrameworkStores<AppDbContext>();
 
             builder
