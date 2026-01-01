@@ -206,14 +206,18 @@ namespace LogisticsManagementSystem.Controllers
                     return BadRequest("Invalid input parameters.");
                 }
 
-                var shipmentMethodCost = await _shipmentMethodService.GetShipmentMethodCostAsync(
+                var shipmentMethod = await _shipmentMethodService.GetByIdAsync(
                     shipment.ShipmentMethodId
                 );
 
-                if (shipmentMethodCost == 0)
+                if (shipmentMethod == null)
                 {
                     return NotFound("Shipment method not found.");
                 }
+
+                var shipmentMethodCost = await _shipmentMethodService.GetShipmentMethodCostAsync(
+                    shipment.ShipmentMethodId
+                );
 
                 var totalCost = await _shipmentService.GetTotalCost(
                     shipment.Quantity,

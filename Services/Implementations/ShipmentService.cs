@@ -1,4 +1,5 @@
-﻿using LogisticsManagementSystem.DTOs.ShipmentDTOs;
+﻿using LogisticsManagementSystem.DTOs.Responses;
+using LogisticsManagementSystem.DTOs.ShipmentDTOs;
 using LogisticsManagementSystem.Models;
 using LogisticsManagementSystem.Repository.Interfaces;
 using LogisticsManagementSystem.Services.Interfaces;
@@ -101,12 +102,14 @@ namespace LogisticsManagementSystem.Services.Implementations
             return await _shipmentRepository.GetShipmentByTrackingNumberAsync(trackingNumber);
         }
 
-        public async Task UpdateShipmentAsync(int id, UpdateShipmentDto shipment)
+        public async Task<ServiceResponse> UpdateShipmentAsync(int id, UpdateShipmentDto shipment)
         {
             var existingShipment = await _shipmentRepository.GetByIdAsync(id);
 
             if (existingShipment == null)
-                throw new ArgumentException($"Shipment with ID {id} not found.");
+            {
+                return new ServiceResponse(false, "Shipment not found.");
+            }
 
             existingShipment.ShipperCountry = shipment.ShipperCountry;
             existingShipment.ShipperCity = shipment.ShipperCity;
@@ -119,36 +122,35 @@ namespace LogisticsManagementSystem.Services.Implementations
             existingShipment.ReceiverPhone = shipment.ReceiverPhone;
 
             await _shipmentRepository.UpdateAsync(existingShipment);
+            return new ServiceResponse(false, "Shipment updated successfully");
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<ServiceResponse> DeleteAsync(int id)
         {
             var shipment = await _shipmentRepository.GetByIdAsync(id);
-            if (shipment != null)
+            if (shipment is null)
             {
-                await _shipmentRepository.DeleteAsync(id);
+                return new ServiceResponse(false, "Shipment not found.");
             }
-            else
-            {
-                throw new ArgumentException("Shipment not found.");
-            }
+
+            await _shipmentRepository.DeleteAsync(id);
+            return new ServiceResponse(true, "Shipment deleted successfully.");
         }
 
-        public async Task Update(Shipment shipment)
+        public async Task<ServiceResponse> Update(Shipment shipment)
         {
             var existingShipment = await _shipmentRepository.GetByIdAsync(shipment.ShipmentId);
 
             if (existingShipment == null)
-                throw new ArgumentException($"Shipment with ID {shipment.ShipmentId} not found.");
+            {
+                return new ServiceResponse(false, "Shipment not found");
+            }
 
             await _shipmentRepository.UpdateAsync(existingShipment);
+            return new ServiceResponse(true, "Shipment updated successfully.");
         }
 
-        public async Task<decimal> GetTotalCost(
-            int quantity,
-            decimal weight,
-            decimal shipmentMethodCost
-        )
+        public decimal GetTotalCost(int quantity, decimal weight, decimal shipmentMethodCost)
         {
             return weight * quantity + shipmentMethodCost;
         }

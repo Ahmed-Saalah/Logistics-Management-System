@@ -1,4 +1,5 @@
-﻿using LogisticsManagementSystem.DTOs.ShipmentDTOs;
+﻿using LogisticsManagementSystem.DTOs.Responses;
+using LogisticsManagementSystem.DTOs.ShipmentDTOs;
 using LogisticsManagementSystem.Models;
 
 namespace LogisticsManagementSystem.Services.Interfaces
@@ -11,12 +12,12 @@ namespace LogisticsManagementSystem.Services.Interfaces
 
         Task<Shipment> GetByTrackingNumber(string trackingNumber);
 
-        Task UpdateShipmentAsync(int id, UpdateShipmentDto shipment);
+        Task<ServiceResponse> UpdateShipmentAsync(int id, UpdateShipmentDto shipment);
 
-        Task DeleteAsync(int id);
+        Task<ServiceResponse> DeleteAsync(int id);
 
-        Task Update(Shipment shipment);
+        Task<ServiceResponse> Update(Shipment shipment);
 
-        Task<decimal> GetTotalCost(int quantity, decimal weight, decimal shipmentMethodCost);
+        decimal GetTotalCost(int quantity, decimal weight, decimal shipmentMethodCost);
     }
 }
