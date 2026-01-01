@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace LogisticsManagementSystem.DTO.CustomerDTOs
+namespace LogisticsManagementSystem.DTOs.CustomerDTOs
 {
-    public class CustomerCreateDTO
+    public class CreateCustomerDto
     {
         [Required]
         [StringLength(100)]

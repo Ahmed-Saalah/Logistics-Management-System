@@ -1,9 +1,8 @@
 ﻿using LogisticsManagementSystem.Models;
-using System.ComponentModel.DataAnnotations;
 
-namespace LogisticsManagementSystem.DTO.ShipmentDTOs
+namespace LogisticsManagementSystem.DTOs.ShipmentDTOs
 {
-    public class ShipmentCreateDTO
+    public class CreateShipmentDto
     {
         #region Ship & Receiver Information
         public string ShipperName { get; set; }
@@ -23,7 +22,7 @@ namespace LogisticsManagementSystem.DTO.ShipmentDTOs
         #region Shipment Details
         public int Quantity { get; set; }
         public decimal Weight { get; set; }
-        public string? Description {  get; set; }
+        public string? Description { get; set; }
         public ShipmentStatus Status { get; set; } = ShipmentStatus.Pending;
         public int? ShipmentMethodId { get; set; }
         #endregion
@@ -37,6 +36,6 @@ namespace LogisticsManagementSystem.DTO.ShipmentDTOs
     {
         Pending = 1,
         Completed = 2,
-        Failed = 3
+        Failed = 3,
     }
 }

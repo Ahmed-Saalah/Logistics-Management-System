@@ -1,4 +1,4 @@
-﻿using LogisticsManagementSystem.DTO.ShipmentDTOs;
+﻿using LogisticsManagementSystem.DTOs.ShipmentDTOs;
 using LogisticsManagementSystem.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,13 +12,17 @@ namespace LogisticsManagementSystem.Controllers
         private readonly ShipmentService _shipmentService;
         private readonly CustomerService _customerService;
         private readonly ShipmentMethodService _shipmentMethodService;
-        public ShipmentController(ShipmentService shipmentService, CustomerService customerService, ShipmentMethodService shipmentMethodService)
+
+        public ShipmentController(
+            ShipmentService shipmentService,
+            CustomerService customerService,
+            ShipmentMethodService shipmentMethodService
+        )
         {
             _shipmentService = shipmentService;
             _customerService = customerService;
             _shipmentMethodService = shipmentMethodService;
         }
-
 
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById(int id)
@@ -36,14 +40,21 @@ namespace LogisticsManagementSystem.Controllers
                     ShipperName = shipemnt.ShipperName,
                     ReceiverName = shipemnt.ReceiverName,
                     CreatedAt = shipemnt.CreatedAt.Value,
-                    Status = shipemnt.Status.Value
+                    Status = shipemnt.Status.Value,
                 };
 
                 return Ok(shipmentDTO);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { Message = "An error occurred while processing the request.", Error = ex.Message });
+                return StatusCode(
+                    500,
+                    new
+                    {
+                        Message = "An error occurred while processing the request.",
+                        Error = ex.Message,
+                    }
+                );
             }
         }
 
@@ -63,20 +74,27 @@ namespace LogisticsManagementSystem.Controllers
                     ShipperName = shipemnt.ShipperName,
                     ReceiverName = shipemnt.ReceiverName,
                     CreatedAt = shipemnt.CreatedAt.Value,
-                    Status = shipemnt.Status.Value
+                    Status = shipemnt.Status.Value,
                 };
 
                 return Ok(shipmentDTO);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { Message = "An error occurred while processing the request.", Error = ex.Message });
+                return StatusCode(
+                    500,
+                    new
+                    {
+                        Message = "An error occurred while processing the request.",
+                        Error = ex.Message,
+                    }
+                );
             }
         }
-       
+
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] ShipmentCreateDTO shipmentCreateDTO)
+        public async Task<IActionResult> Create([FromBody] CreateShipmentDto shipmentCreateDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -96,30 +114,43 @@ namespace LogisticsManagementSystem.Controllers
                     return Unauthorized("Customer not found.");
                 }
 
-                var shipment = await _shipmentService.CreateShipmentAsync(shipmentCreateDTO, customerId.Value);
+                var shipment = await _shipmentService.CreateShipmentAsync(
+                    shipmentCreateDTO,
+                    customerId.Value
+                );
 
                 //return CreatedAtAction(nameof(GetById), new { id = shipment.ShipmentId }, shipment);
                 return Ok(shipment);
             }
-
             catch (ArgumentException ex)
             {
                 return BadRequest(new { Message = ex.Message });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { Message = "An error occurred while creating the shipment." });
+                return StatusCode(
+                    500,
+                    new { Message = "An error occurred while creating the shipment." }
+                );
             }
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update(int id, [FromBody] ShipmentUpdateDTO shipmentUpdateDTO)
+        public async Task<IActionResult> Update(
+            int id,
+            [FromBody] UpdateShipmentDto shipmentUpdateDTO
+        )
         {
             if (shipmentUpdateDTO == null)
                 return BadRequest(new { Message = "Shipment data cannot be null." });
 
             if (id != shipmentUpdateDTO.ShipmentId)
-                return BadRequest(new { Message = "Shipment ID in the URL does not match the Shipment ID in the request body." });
+                return BadRequest(
+                    new
+                    {
+                        Message = "Shipment ID in the URL does not match the Shipment ID in the request body.",
+                    }
+                );
 
             try
             {
@@ -132,7 +163,14 @@ namespace LogisticsManagementSystem.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { Message = "An error occurred while updating the shipment.", Error = ex.Message });
+                return StatusCode(
+                    500,
+                    new
+                    {
+                        Message = "An error occurred while updating the shipment.",
+                        Error = ex.Message,
+                    }
+                );
             }
         }
 
@@ -146,10 +184,16 @@ namespace LogisticsManagementSystem.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { Message = "An error occurred while deleting the shipment.", Error = ex.Message });
+                return StatusCode(
+                    500,
+                    new
+                    {
+                        Message = "An error occurred while deleting the shipment.",
+                        Error = ex.Message,
+                    }
+                );
             }
         }
-
 
         /// <summary>
         /// Rate Calculator API
@@ -157,7 +201,9 @@ namespace LogisticsManagementSystem.Controllers
         /// </summary>
 
         [HttpPost("rateCalculator")]
-        public async Task<IActionResult> RateCalculatorAsync([FromBody] ShipmentWithRateDTO shipment)
+        public async Task<IActionResult> RateCalculatorAsync(
+            [FromBody] ShipmentWithRateDTO shipment
+        )
         {
             try
             {
@@ -166,13 +212,19 @@ namespace LogisticsManagementSystem.Controllers
                     return BadRequest("Invalid input parameters.");
                 }
 
-                var shipmentMethodCost = await _shipmentMethodService.GetShipmentMethodCostAsync(shipment.ShipmentMethodId);
+                var shipmentMethodCost = await _shipmentMethodService.GetShipmentMethodCostAsync(
+                    shipment.ShipmentMethodId
+                );
                 if (shipmentMethodCost == 0)
                 {
                     return NotFound("Shipment method not found.");
                 }
 
-                var totalCost = await _shipmentService.GetTotalCost(shipment.Quantity, shipment.Weight, shipmentMethodCost);
+                var totalCost = await _shipmentService.GetTotalCost(
+                    shipment.Quantity,
+                    shipment.Weight,
+                    shipmentMethodCost
+                );
 
                 return Ok(new { totalCost });
             }
@@ -181,7 +233,5 @@ namespace LogisticsManagementSystem.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-
-
     }
 }

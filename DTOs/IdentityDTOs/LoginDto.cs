@@ -1,4 +1,4 @@
-﻿namespace LogisticsManagementSystem.DTO
+﻿namespace LogisticsManagementSystem.DTOs.IdentityDTOs
 {
     public class LoginDTO
     {

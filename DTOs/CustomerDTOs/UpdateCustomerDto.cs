@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace LogisticsManagementSystem.DTO.CustomerDTOs
+namespace LogisticsManagementSystem.DTOs.CustomerDTOs
 {
-    public class CustomerUpdateDTO
+    public class UpdateCustomerDto
     {
         public int? CustomerId { get; set; }
 

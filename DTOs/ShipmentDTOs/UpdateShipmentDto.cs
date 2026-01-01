@@ -1,6 +1,6 @@
-﻿namespace LogisticsManagementSystem.DTO.ShipmentDTOs
+﻿namespace LogisticsManagementSystem.DTOs.ShipmentDTOs
 {
-    public class ShipmentUpdateDTO
+    public class UpdateShipmentDto
     {
         public int ShipmentId { get; set; }
         public string ShipperCountry { get; set; }

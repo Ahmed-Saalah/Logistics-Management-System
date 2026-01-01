@@ -1,4 +1,4 @@
-﻿using LogisticsManagementSystem.DTO.ShipmentDTOs;
+﻿using LogisticsManagementSystem.DTOs.ShipmentDTOs;
 using LogisticsManagementSystem.Models;
 using LogisticsManagementSystem.Repository;
 
@@ -11,7 +11,12 @@ namespace LogisticsManagementSystem.Services
         private readonly IPaymentRepository _paymentRepository;
         private readonly IShipmentMethodRepository _shipmentMethodRepository;
 
-        public ShipmentService(IShipmentRepository shipmentRepository, IPaymentRepository paymentRepository, IShipmentMethodRepository shipmentMethodRepository, StripePaymentService stripePaymentService)
+        public ShipmentService(
+            IShipmentRepository shipmentRepository,
+            IPaymentRepository paymentRepository,
+            IShipmentMethodRepository shipmentMethodRepository,
+            StripePaymentService stripePaymentService
+        )
         {
             _shipmentRepository = shipmentRepository;
             _paymentRepository = paymentRepository;
@@ -19,18 +24,25 @@ namespace LogisticsManagementSystem.Services
             _stripePaymentService = stripePaymentService;
         }
 
-        public async Task<Shipment> CreateShipmentAsync(ShipmentCreateDTO shipmentCreateDTO, int customerId)
+        public async Task<Shipment> CreateShipmentAsync(
+            CreateShipmentDto shipmentCreateDTO,
+            int customerId
+        )
         {
             ShipmentMethod shipmentMethod = null;
 
             if (shipmentCreateDTO.ShipmentMethodId.HasValue)
             {
-                shipmentMethod = await _shipmentMethodRepository.GetAsync(sm => sm.ShipmentMethodID == shipmentCreateDTO.ShipmentMethodId);
+                shipmentMethod = await _shipmentMethodRepository.GetAsync(sm =>
+                    sm.ShipmentMethodID == shipmentCreateDTO.ShipmentMethodId
+                );
             }
 
             if (shipmentMethod == null)
             {
-                shipmentMethod = await _shipmentMethodRepository.GetShipmentMethodByNameAsync("Standard");
+                shipmentMethod = await _shipmentMethodRepository.GetShipmentMethodByNameAsync(
+                    "Standard"
+                );
             }
 
             if (shipmentMethod == null)
@@ -65,11 +77,11 @@ namespace LogisticsManagementSystem.Services
                     Status = shipmentCreateDTO.Status,
                     CustomerId = customerId,
                     CreatedAt = DateTime.UtcNow,
-                    ShipmentMethod = shipmentMethod
+                    ShipmentMethod = shipmentMethod,
                 };
 
-                var createdShipment =  await _shipmentRepository.AddAsync(shipment); 
-                
+                var createdShipment = await _shipmentRepository.AddAsync(shipment);
+
                 return createdShipment;
             }
             catch
@@ -88,7 +100,7 @@ namespace LogisticsManagementSystem.Services
             return await _shipmentRepository.GetShipmentByTrackingNumberAsync(trackingNumber);
         }
 
-        public async Task UpdateShipmentAsync(int id, ShipmentUpdateDTO shipment)
+        public async Task UpdateShipmentAsync(int id, UpdateShipmentDto shipment)
         {
             var existingShipment = await _shipmentRepository.GetByIdAsync(id);
 
@@ -130,12 +142,14 @@ namespace LogisticsManagementSystem.Services
 
             await _shipmentRepository.UpdateAsync(existingShipment);
         }
-    
-        
-        public async Task<decimal> GetTotalCost(int quantity, decimal weight, decimal shipmentMethodCost)
+
+        public async Task<decimal> GetTotalCost(
+            int quantity,
+            decimal weight,
+            decimal shipmentMethodCost
+        )
         {
             return (weight * quantity) + shipmentMethodCost;
         }
-    
     }
 }

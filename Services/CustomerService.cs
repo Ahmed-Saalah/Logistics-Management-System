@@ -1,14 +1,13 @@
-﻿using LogisticsManagementSystem.DTO.CustomerDTOs;
-using LogisticsManagementSystem.DTO.ShipmentDTOs;
+﻿using LogisticsManagementSystem.DTOs.CustomerDTOs;
 using LogisticsManagementSystem.Models;
 using LogisticsManagementSystem.Repository;
-using Microsoft.EntityFrameworkCore;
 
 namespace LogisticsManagementSystem.Services
 {
     public class CustomerService
     {
         private readonly ICustomerRepository _customerRepository;
+
         public CustomerService(ICustomerRepository customerRepository)
         {
             _customerRepository = customerRepository;
@@ -19,7 +18,7 @@ namespace LogisticsManagementSystem.Services
             return await _customerRepository.GetByIdAsync(id);
         }
 
-        public async Task<CustomerDto> AddAsync(CustomerCreateDTO customerCreateDto)
+        public async Task<CustomerDto> AddAsync(CreateCustomerDto customerCreateDto)
         {
             var customer = new Customer
             {
@@ -28,7 +27,7 @@ namespace LogisticsManagementSystem.Services
                 Password = customerCreateDto.Password,
                 Phone = customerCreateDto.Phone,
                 Country = customerCreateDto.Country,
-                City = customerCreateDto.City
+                City = customerCreateDto.City,
             };
 
             await _customerRepository.AddAsync(customer);
@@ -40,15 +39,15 @@ namespace LogisticsManagementSystem.Services
                 Email = customer.Email,
                 Phone = customer.Phone,
                 Country = customer.Country,
-                City = customer.City
+                City = customer.City,
             };
 
             return customerDto;
         }
 
-        public async Task UpdateCustomerAsync(int id, CustomerUpdateDTO customerUpdateDto)
+        public async Task UpdateCustomerAsync(int id, UpdateCustomerDto customerUpdateDto)
         {
-            var existingCustomer= await _customerRepository.GetByIdAsync(id);
+            var existingCustomer = await _customerRepository.GetByIdAsync(id);
 
             if (existingCustomer == null)
                 throw new ArgumentException($"Customer with ID {id} not found.");
@@ -75,10 +74,11 @@ namespace LogisticsManagementSystem.Services
                 throw new ArgumentException("Customer not found.");
             }
         }
-    
+
         public async Task<int?> GetCustomerIdByUsernameAsync(string username)
         {
-            return await _customerRepository.GetCustomerIdByUsernameAsync(username); ;
+            return await _customerRepository.GetCustomerIdByUsernameAsync(username);
+            ;
         }
     }
 }

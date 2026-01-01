@@ -1,4 +1,4 @@
-﻿namespace LogisticsManagementSystem.DTO.CustomerDTOs
+﻿namespace LogisticsManagementSystem.DTOs.CustomerDTOs
 {
     public class CustomerDto
     {

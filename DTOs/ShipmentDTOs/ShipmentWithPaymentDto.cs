@@ -1,6 +1,6 @@
 ﻿using LogisticsManagementSystem.Models;
 
-namespace LogisticsManagementSystem.DTO.ShipmentDTOs
+namespace LogisticsManagementSystem.DTOs.ShipmentDTOs
 {
     public class ShipmentWithPaymentDTO
     {

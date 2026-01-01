@@ -1,6 +1,6 @@
 ﻿using LogisticsManagementSystem.Models;
 
-namespace LogisticsManagementSystem.DTO.ShipmentDTOs
+namespace LogisticsManagementSystem.DTOs.ShipmentDTOs
 {
     public class ShipmentWithRateDTO
     {
@@ -15,7 +15,6 @@ namespace LogisticsManagementSystem.DTO.ShipmentDTOs
         public string ReceiverCity { get; set; }
         public string ReceiverStreet { get; set; }
 
-        public int ShipmentMethodId { get; set ; }
-
+        public int ShipmentMethodId { get; set; }
     }
 }

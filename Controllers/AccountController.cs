@@ -1,13 +1,13 @@
-﻿using LogisticsManagementSystem.DTO;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using LogisticsManagementSystem.DTOs;
+using LogisticsManagementSystem.DTOs.IdentityDTOs;
 using LogisticsManagementSystem.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 
 namespace LogisticsManagementSystem.Controllers
 {
@@ -63,8 +63,10 @@ namespace LogisticsManagementSystem.Controllers
 
                 if (userFromDb != null)
                 {
-                    bool found =
-                        await userManager.CheckPasswordAsync(userFromDb, userFromRequest.Password);
+                    bool found = await userManager.CheckPasswordAsync(
+                        userFromDb,
+                        userFromRequest.Password
+                    );
 
                     if (found)
                     {
@@ -72,7 +74,9 @@ namespace LogisticsManagementSystem.Controllers
                         claims.Add(new Claim(ClaimTypes.NameIdentifier, userFromDb.Id));
                         claims.Add(new Claim(ClaimTypes.Name, userFromDb.UserName));
                         // Token generated id change (JWT predefined claims)
-                        claims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
+                        claims.Add(
+                            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                        );
 
                         var userRoles = await userManager.GetRolesAsync(userFromDb);
                         foreach (var roleName in userRoles)
@@ -80,9 +84,14 @@ namespace LogisticsManagementSystem.Controllers
                             claims.Add(new Claim(ClaimTypes.Role, roleName));
                         }
 
-                        SymmetricSecurityKey signInKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configure["JWT:SecurityKey"]));
+                        SymmetricSecurityKey signInKey = new SymmetricSecurityKey(
+                            Encoding.UTF8.GetBytes(Configure["JWT:SecurityKey"])
+                        );
 
-                        SigningCredentials signingCredential = new SigningCredentials(signInKey, SecurityAlgorithms.HmacSha256);
+                        SigningCredentials signingCredential = new SigningCredentials(
+                            signInKey,
+                            SecurityAlgorithms.HmacSha256
+                        );
 
                         // Design token
                         JwtSecurityToken Mytoken = new JwtSecurityToken(
@@ -98,8 +107,9 @@ namespace LogisticsManagementSystem.Controllers
                             new
                             {
                                 token = new JwtSecurityTokenHandler().WriteToken(Mytoken),
-                                expiration = DateTime.Now.AddHours(1) // Mytoken.ValidTo
-                            });
+                                expiration = DateTime.Now.AddHours(1), // Mytoken.ValidTo
+                            }
+                        );
                     }
                 }
 

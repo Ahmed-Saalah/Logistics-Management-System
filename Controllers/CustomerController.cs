@@ -1,5 +1,4 @@
-﻿using LogisticsManagementSystem.DTO.CustomerDTOs;
-using LogisticsManagementSystem.Models;
+﻿using LogisticsManagementSystem.DTOs.CustomerDTOs;
 using LogisticsManagementSystem.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,7 +21,7 @@ namespace LogisticsManagementSystem.Controllers
             try
             {
                 var customer = await _customerService.GetByIdAsync(id);
-               
+
                 if (customer == null)
                     return NotFound(new { Message = "Customer not found." });
 
@@ -33,19 +32,26 @@ namespace LogisticsManagementSystem.Controllers
                     Email = customer.Email,
                     Phone = customer.Phone,
                     Country = customer.Country,
-                    City = customer.City
+                    City = customer.City,
                 };
 
                 return Ok(customerDto);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { Message = "An error occurred while processing the request.", Error = ex.Message });
+                return StatusCode(
+                    500,
+                    new
+                    {
+                        Message = "An error occurred while processing the request.",
+                        Error = ex.Message,
+                    }
+                );
             }
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add([FromBody] CustomerCreateDTO customerCreateDto)
+        public async Task<IActionResult> Add([FromBody] CreateCustomerDto customerCreateDto)
         {
             if (customerCreateDto == null)
                 return BadRequest(new { Message = "Customer data cannot be null." });
@@ -57,18 +63,29 @@ namespace LogisticsManagementSystem.Controllers
             {
                 var customerDto = await _customerService.AddAsync(customerCreateDto);
 
-                return CreatedAtAction(nameof(GetById), new { id = customerDto.CustomerId }, customerDto);
+                return CreatedAtAction(
+                    nameof(GetById),
+                    new { id = customerDto.CustomerId },
+                    customerDto
+                );
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { Message = "An error occurred while saving the customer.", Error = ex.Message });
+                return StatusCode(
+                    500,
+                    new
+                    {
+                        Message = "An error occurred while saving the customer.",
+                        Error = ex.Message,
+                    }
+                );
             }
         }
 
         [HttpPut("{id:int}")]
-        public async Task<IActionResult> Update(int id, [FromBody] CustomerUpdateDTO customerUpdateDto)
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateCustomerDto data)
         {
-            if (customerUpdateDto == null)
+            if (data == null)
                 return BadRequest(new { Message = "Customer data cannot be null." });
 
             //if (id != customerUpdateDto.CustomerId)
@@ -76,12 +93,19 @@ namespace LogisticsManagementSystem.Controllers
 
             try
             {
-                await _customerService.UpdateCustomerAsync(id, customerUpdateDto);
+                await _customerService.UpdateCustomerAsync(id, data);
                 return NoContent();
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { Message = "An error occurred while updating the customer.", Error = ex.Message });
+                return StatusCode(
+                    500,
+                    new
+                    {
+                        Message = "An error occurred while updating the customer.",
+                        Error = ex.Message,
+                    }
+                );
             }
         }
 
@@ -95,7 +119,14 @@ namespace LogisticsManagementSystem.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { Message = "An error occurred while deleting the customer.", Error = ex.Message });
+                return StatusCode(
+                    500,
+                    new
+                    {
+                        Message = "An error occurred while deleting the customer.",
+                        Error = ex.Message,
+                    }
+                );
             }
         }
     }
