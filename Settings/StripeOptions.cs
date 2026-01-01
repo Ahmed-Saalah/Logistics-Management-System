@@ -1,4 +1,4 @@
-﻿namespace LogisticsManagementSystem.Models
+﻿namespace LogisticsManagementSystem.Settings
 {
     public class StripeOptions
     {

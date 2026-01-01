@@ -1,5 +1,6 @@
 ﻿using LogisticsManagementSystem.Models;
 using LogisticsManagementSystem.Services.Interfaces;
+using LogisticsManagementSystem.Settings;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Stripe;

@@ -1,10 +1,10 @@
 ﻿using System.Text.Json.Serialization;
 using LogisticsManagementSystem.DbContext;
-using LogisticsManagementSystem.Models;
 using LogisticsManagementSystem.Repository.Implementations;
 using LogisticsManagementSystem.Repository.Interfaces;
 using LogisticsManagementSystem.Services.Implementations;
 using LogisticsManagementSystem.Services.Interfaces;
+using LogisticsManagementSystem.Settings;
 using Microsoft.EntityFrameworkCore;
 
 namespace LogisticsManagementSystem.Extensions
