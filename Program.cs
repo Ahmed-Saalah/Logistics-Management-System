@@ -1,5 +1,6 @@
 using System.Text;
 using LogisticsManagementSystem.DbContext;
+using LogisticsManagementSystem.Extensions;
 using LogisticsManagementSystem.Models;
 using LogisticsManagementSystem.Repository.Implementations;
 using LogisticsManagementSystem.Repository.Interfaces;
@@ -19,92 +20,11 @@ namespace LogisticsManagementSystem
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            #region Register repositories
-            builder.Services.AddScoped<IShipmentRepository, ShipmentRepository>();
-            builder.Services.AddScoped<IRepository<Shipment>, Repository<Shipment>>();
-            builder.Services.AddScoped<IShipmentMethodRepository, ShipmentMethodRepository>();
-            builder.Services.AddScoped<IRepository<ShipmentMethod>, Repository<ShipmentMethod>>();
-            builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
-            builder.Services.AddScoped<IRepository<Payment>, Repository<Payment>>();
-            builder.Services.AddScoped<IStripePaymentService, StripePaymentService>();
-            builder.Services.AddScoped<IShipmentService, ShipmentService>();
-            builder.Services.AddScoped<Models.StripeOptions>();
-            builder.Services.AddScoped<IPaymentService, PaymentService>();
-            builder.Services.AddScoped<IShipmentMethodService, ShipmentMethodService>();
-            #endregion
+            // Register Auth/Identity
+            builder.Services.AddIdentityServices(builder.Configuration);
 
-
-            builder
-                .Services.AddOptions<StripeOptions>()
-                .Bind(builder.Configuration.GetSection("Stripe"));
-
-            // Register Controllers
-            builder
-                .Services.AddControllers()
-                .AddJsonOptions(options =>
-                {
-                    options.JsonSerializerOptions.ReferenceHandler = System
-                        .Text
-                        .Json
-                        .Serialization
-                        .ReferenceHandler
-                        .Preserve;
-                });
-
-            // Database setup
-            builder.Services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString"))
-            );
-
-            #region Identity and JWT
-            builder
-                .Services.AddIdentity<User, IdentityRole<int>>()
-                .AddEntityFrameworkStores<AppDbContext>();
-
-            builder
-                .Services.AddAuthentication(options =>
-                {
-                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
-                .AddJwtBearer(op =>
-                {
-                    op.SaveToken = true;
-                    op.RequireHttpsMetadata = false;
-                    op.TokenValidationParameters = new TokenValidationParameters()
-                    {
-                        ValidateIssuer = true,
-                        ValidIssuer = builder.Configuration["JWT:IssuerIP"],
-                        ValidateAudience = true,
-                        ValidAudience = builder.Configuration["JWT:AudienceIP"],
-                        IssuerSigningKey = new SymmetricSecurityKey(
-                            Encoding.UTF8.GetBytes(builder.Configuration["JWT:SecurityKey"])
-                        ),
-                    };
-                });
-
-            #endregion
-
-            // Cors Services
-            builder.Services.AddCors(options =>
-            {
-                options.AddPolicy(
-                    "MyPolicy",
-                    policy =>
-                    {
-                        policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
-                    }
-                );
-                options.AddDefaultPolicy(op =>
-                {
-                    op.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
-                });
-            });
-
-            // Swagger/OpenAPI Setup
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            // Register App Services (DB, Repos, Stripe, Controllers)
+            builder.Services.AddApplicationServices(builder.Configuration);
 
             var app = builder.Build();
 
@@ -118,6 +38,8 @@ namespace LogisticsManagementSystem
             }
 
             app.UseCors("MyPolicy");
+
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseStaticFiles();
