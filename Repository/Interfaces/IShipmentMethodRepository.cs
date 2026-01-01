@@ -1,6 +1,6 @@
 ﻿using LogisticsManagementSystem.Models;
 
-namespace LogisticsManagementSystem.Repository
+namespace LogisticsManagementSystem.Repository.Interfaces
 {
     public interface IShipmentMethodRepository : IRepository<ShipmentMethod>
     {

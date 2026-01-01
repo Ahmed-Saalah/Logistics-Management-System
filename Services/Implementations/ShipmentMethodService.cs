@@ -1,5 +1,5 @@
 ﻿using LogisticsManagementSystem.Models;
-using LogisticsManagementSystem.Repository;
+using LogisticsManagementSystem.Repository.Interfaces;
 using LogisticsManagementSystem.Services.Interfaces;
 
 namespace LogisticsManagementSystem.Services.Implementations

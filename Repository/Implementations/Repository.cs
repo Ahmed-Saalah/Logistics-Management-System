@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using LogisticsManagementSystem.DbContext;
+using LogisticsManagementSystem.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace LogisticsManagementSystem.Repository
+namespace LogisticsManagementSystem.Repository.Implementations
 {
     public class Repository<T> : IRepository<T>
         where T : class
@@ -38,7 +38,7 @@ namespace LogisticsManagementSystem.Repository
 
         public async Task<IEnumerable<T>> GetAllAsync()
         {
-            return await _context.Set<T>().ToListAsync();
+            return await _context.Set<T>().AsNoTracking().ToListAsync();
         }
 
         public async Task<T> GetByIdAsync(int id)
@@ -50,11 +50,6 @@ namespace LogisticsManagementSystem.Repository
             return entity;
         }
 
-        public IQueryable<T> AsQueryable()
-        {
-            return _context.Set<T>().AsQueryable();
-        }
-
         public async Task UpdateAsync(T entity)
         {
             if (entity == null)
@@ -62,11 +57,6 @@ namespace LogisticsManagementSystem.Repository
 
             _context.Set<T>().Update(entity);
             await _context.SaveChangesAsync();
-        }
-
-        public IQueryable<T> Query()
-        {
-            throw new NotImplementedException();
         }
     }
 }

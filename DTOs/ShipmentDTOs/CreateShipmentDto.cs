@@ -1,4 +1,4 @@
-﻿using LogisticsManagementSystem.Models;
+﻿using LogisticsManagementSystem.Constants;
 
 namespace LogisticsManagementSystem.DTOs.ShipmentDTOs
 {
@@ -23,7 +23,7 @@ namespace LogisticsManagementSystem.DTOs.ShipmentDTOs
         public int Quantity { get; set; }
         public decimal Weight { get; set; }
         public string? Description { get; set; }
-        public ShipmentStatus Status { get; set; } = ShipmentStatus.Pending;
+        public string Status { get; set; } = ShipmentStatus.Pending;
         public int? ShipmentMethodId { get; set; }
         #endregion
 

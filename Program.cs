@@ -1,7 +1,8 @@
 using System.Text;
 using LogisticsManagementSystem.DbContext;
 using LogisticsManagementSystem.Models;
-using LogisticsManagementSystem.Repository;
+using LogisticsManagementSystem.Repository.Implementations;
+using LogisticsManagementSystem.Repository.Interfaces;
 using LogisticsManagementSystem.Services.Implementations;
 using LogisticsManagementSystem.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

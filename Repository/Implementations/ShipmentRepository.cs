@@ -1,8 +1,9 @@
 ﻿using LogisticsManagementSystem.DbContext;
 using LogisticsManagementSystem.Models;
+using LogisticsManagementSystem.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace LogisticsManagementSystem.Repository
+namespace LogisticsManagementSystem.Repository.Implementations
 {
     public class ShipmentRepository : Repository<Shipment>, IShipmentRepository
     {

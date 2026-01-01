@@ -1,6 +1,6 @@
 ﻿using LogisticsManagementSystem.DTOs.CustomerDTOs;
 using LogisticsManagementSystem.Models;
-using LogisticsManagementSystem.Repository;
+using LogisticsManagementSystem.Repository.Interfaces;
 
 namespace LogisticsManagementSystem.Services.Implementations
 {

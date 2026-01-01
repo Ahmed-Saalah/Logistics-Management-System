@@ -8,6 +8,6 @@ namespace LogisticsManagementSystem.DTOs.ShipmentDTOs
         public string ShipperName { get; set; }
         public string ReceiverName { get; set; }
         public DateTime CreatedAt { get; set; }
-        public ShipmentStatus Status { get; set; }
+        public string Status { get; set; }
     }
 }
