@@ -37,9 +37,9 @@ namespace LogisticsManagementSystem.configurations
             builder.Property(s => s.ReceiverStreet).HasMaxLength(20);
 
             builder
-                .HasOne(s => s.Customer)
+                .HasOne(s => s.User)
                 .WithMany(c => c.Shipments)
-                .HasForeignKey(s => s.CustomerId)
+                .HasForeignKey(s => s.UserId)
                 .OnDelete(DeleteBehavior.SetNull);
 
             builder

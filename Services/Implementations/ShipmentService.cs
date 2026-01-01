@@ -27,7 +27,7 @@ namespace LogisticsManagementSystem.Services.Implementations
 
         public async Task<Shipment> CreateShipmentAsync(
             CreateShipmentDto shipmentCreateDTO,
-            int customerId
+            int userId
         )
         {
             ShipmentMethod shipmentMethod = null;
@@ -76,7 +76,7 @@ namespace LogisticsManagementSystem.Services.Implementations
                     Weight = shipmentCreateDTO.Weight,
                     Description = shipmentCreateDTO.Description,
                     Status = shipmentCreateDTO.Status,
-                    CustomerId = customerId,
+                    UserId = userId,
                     CreatedAt = DateTime.UtcNow,
                     ShipmentMethod = shipmentMethod,
                 };

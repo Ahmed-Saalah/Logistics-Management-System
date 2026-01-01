@@ -1,5 +1,4 @@
 ﻿using LogisticsManagementSystem.DTOs.ShipmentDTOs;
-using LogisticsManagementSystem.Services.Implementations;
 using LogisticsManagementSystem.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,17 +10,17 @@ namespace LogisticsManagementSystem.Controllers
     public class ShipmentController : ControllerBase
     {
         private readonly IShipmentService _shipmentService;
-        private readonly CustomerService _customerService;
+        private readonly IUserManagement _userManagement;
         private readonly IShipmentMethodService _shipmentMethodService;
 
         public ShipmentController(
             IShipmentService shipmentService,
-            CustomerService customerService,
+            IUserManagement userManagement,
             IShipmentMethodService shipmentMethodService
         )
         {
             _shipmentService = shipmentService;
-            _customerService = customerService;
+            _userManagement = userManagement;
             _shipmentMethodService = shipmentMethodService;
         }
 
@@ -33,7 +32,9 @@ namespace LogisticsManagementSystem.Controllers
                 var shipemnt = await _shipmentService.GetByIdAsync(id);
 
                 if (shipemnt == null)
+                {
                     return NotFound(new { Message = "shipemnt not found." });
+                }
 
                 var shipmentDTO = new ShipmentDTO
                 {
@@ -67,7 +68,9 @@ namespace LogisticsManagementSystem.Controllers
                 var shipemnt = await _shipmentService.GetByTrackingNumber(trackingNumber);
 
                 if (shipemnt == null)
+                {
                     return NotFound(new { Message = "shipemnt not found." });
+                }
 
                 var shipmentDTO = new ShipmentDTO
                 {
@@ -109,15 +112,15 @@ namespace LogisticsManagementSystem.Controllers
                     return Unauthorized("User is not authenticated.");
                 }
 
-                var customerId = await _customerService.GetCustomerIdByUsernameAsync(username);
-                if (customerId == null)
+                var user = await _userManagement.GetUserByEmail(username);
+                if (user == null)
                 {
                     return Unauthorized("Customer not found.");
                 }
 
                 var shipment = await _shipmentService.CreateShipmentAsync(
                     shipmentCreateDTO,
-                    customerId.Value
+                    user.Id
                 );
 
                 //return CreatedAtAction(nameof(GetById), new { id = shipment.ShipmentId }, shipment);
@@ -127,7 +130,7 @@ namespace LogisticsManagementSystem.Controllers
             {
                 return BadRequest(new { Message = ex.Message });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(
                     500,
@@ -139,13 +142,15 @@ namespace LogisticsManagementSystem.Controllers
         [HttpPut]
         public async Task<IActionResult> Update(
             int id,
-            [FromBody] UpdateShipmentDto shipmentUpdateDTO
+            [FromBody] UpdateShipmentDto updateShipmentDto
         )
         {
-            if (shipmentUpdateDTO == null)
+            if (updateShipmentDto == null)
+            {
                 return BadRequest(new { Message = "Shipment data cannot be null." });
+            }
 
-            if (id != shipmentUpdateDTO.ShipmentId)
+            if (id != updateShipmentDto.ShipmentId)
                 return BadRequest(
                     new
                     {
@@ -155,7 +160,7 @@ namespace LogisticsManagementSystem.Controllers
 
             try
             {
-                await _shipmentService.UpdateShipmentAsync(id, shipmentUpdateDTO);
+                await _shipmentService.UpdateShipmentAsync(id, updateShipmentDto);
                 return NoContent();
             }
             catch (ArgumentException ex)
@@ -216,6 +221,7 @@ namespace LogisticsManagementSystem.Controllers
                 var shipmentMethodCost = await _shipmentMethodService.GetShipmentMethodCostAsync(
                     shipment.ShipmentMethodId
                 );
+
                 if (shipmentMethodCost == 0)
                 {
                     return NotFound("Shipment method not found.");

@@ -21,7 +21,7 @@ namespace LogisticsManagementSystem.configurations
             builder
                 .HasOne(p => p.Customer)
                 .WithMany()
-                .HasForeignKey(p => p.CustomerId)
+                .HasForeignKey(p => p.UserrId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

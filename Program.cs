@@ -20,22 +20,14 @@ namespace LogisticsManagementSystem
             var builder = WebApplication.CreateBuilder(args);
 
             #region Register repositories
-            builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
-            builder.Services.AddScoped<Services.Implementations.CustomerService>();
-            builder.Services.AddScoped<IRepository<Models.Customer>, Repository<Models.Customer>>();
-
             builder.Services.AddScoped<IShipmentRepository, ShipmentRepository>();
             builder.Services.AddScoped<IRepository<Shipment>, Repository<Shipment>>();
-
             builder.Services.AddScoped<IShipmentMethodRepository, ShipmentMethodRepository>();
             builder.Services.AddScoped<IRepository<ShipmentMethod>, Repository<ShipmentMethod>>();
-
             builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
             builder.Services.AddScoped<IRepository<Payment>, Repository<Payment>>();
-
             builder.Services.AddScoped<IStripePaymentService, StripePaymentService>();
             builder.Services.AddScoped<IShipmentService, ShipmentService>();
-
             builder.Services.AddScoped<Models.StripeOptions>();
             builder.Services.AddScoped<IPaymentService, PaymentService>();
             builder.Services.AddScoped<IShipmentMethodService, ShipmentMethodService>();
@@ -66,7 +58,7 @@ namespace LogisticsManagementSystem
 
             #region Identity and JWT
             builder
-                .Services.AddIdentity<ApplicationUser, IdentityRole>()
+                .Services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<AppDbContext>();
 
             builder

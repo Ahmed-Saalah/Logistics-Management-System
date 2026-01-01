@@ -30,9 +30,9 @@ namespace LogisticsManagementSystem.Models
         public DateTime? CreatedAt { get; set; } = DateTime.Now;
         #endregion
 
-        public int CustomerId { get; set; }
+        public int UserId { get; set; }
         public int? PaymentId { get; set; }
-        public Customer? Customer { get; set; }
+        public User? User { get; set; }
         public ShipmentMethod? ShipmentMethod { get; set; }
         public Payment? Payment { get; set; }
     }
