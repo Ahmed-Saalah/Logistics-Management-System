@@ -1,17 +1,18 @@
-﻿using LogisticsManagementSystem.Models;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LogisticsManagementSystem.DbContext;
+using Microsoft.EntityFrameworkCore;
 
 namespace LogisticsManagementSystem.Repository
 {
-    public class Repository<T> : IRepository<T> where T : class
+    public class Repository<T> : IRepository<T>
+        where T : class
     {
-        protected readonly LogisticsManagementContext _context;
+        protected readonly AppDbContext _context;
 
-        public Repository(LogisticsManagementContext context)
+        public Repository(AppDbContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
@@ -24,6 +25,7 @@ namespace LogisticsManagementSystem.Repository
             await _context.SaveChangesAsync();
             return entity;
         }
+
         public async Task DeleteAsync(int id)
         {
             var entity = await GetByIdAsync(id);
@@ -33,10 +35,12 @@ namespace LogisticsManagementSystem.Repository
             _context.Set<T>().Remove(entity);
             await _context.SaveChangesAsync();
         }
+
         public async Task<IEnumerable<T>> GetAllAsync()
         {
             return await _context.Set<T>().ToListAsync();
         }
+
         public async Task<T> GetByIdAsync(int id)
         {
             var entity = await _context.Set<T>().FindAsync(id);
@@ -59,6 +63,7 @@ namespace LogisticsManagementSystem.Repository
             _context.Set<T>().Update(entity);
             await _context.SaveChangesAsync();
         }
+
         public IQueryable<T> Query()
         {
             throw new NotImplementedException();
