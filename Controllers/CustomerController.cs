@@ -1,5 +1,5 @@
 ﻿using LogisticsManagementSystem.DTOs.CustomerDTOs;
-using LogisticsManagementSystem.Services;
+using LogisticsManagementSystem.Services.Implementations;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LogisticsManagementSystem.Controllers

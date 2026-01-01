@@ -1,12 +1,13 @@
 ﻿using LogisticsManagementSystem.DTOs.ShipmentDTOs;
 using LogisticsManagementSystem.Models;
 using LogisticsManagementSystem.Repository;
+using LogisticsManagementSystem.Services.Interfaces;
 
-namespace LogisticsManagementSystem.Services
+namespace LogisticsManagementSystem.Services.Implementations
 {
-    public class ShipmentService
+    public class ShipmentService : IShipmentService
     {
-        private readonly StripePaymentService _stripePaymentService;
+        private readonly IStripePaymentService _stripePaymentService;
         private readonly IShipmentRepository _shipmentRepository;
         private readonly IPaymentRepository _paymentRepository;
         private readonly IShipmentMethodRepository _shipmentMethodRepository;
@@ -15,7 +16,7 @@ namespace LogisticsManagementSystem.Services
             IShipmentRepository shipmentRepository,
             IPaymentRepository paymentRepository,
             IShipmentMethodRepository shipmentMethodRepository,
-            StripePaymentService stripePaymentService
+            IStripePaymentService stripePaymentService
         )
         {
             _shipmentRepository = shipmentRepository;
@@ -34,7 +35,7 @@ namespace LogisticsManagementSystem.Services
             if (shipmentCreateDTO.ShipmentMethodId.HasValue)
             {
                 shipmentMethod = await _shipmentMethodRepository.GetAsync(sm =>
-                    sm.ShipmentMethodID == shipmentCreateDTO.ShipmentMethodId
+                    sm.Id == shipmentCreateDTO.ShipmentMethodId
                 );
             }
 
@@ -149,7 +150,7 @@ namespace LogisticsManagementSystem.Services
             decimal shipmentMethodCost
         )
         {
-            return (weight * quantity) + shipmentMethodCost;
+            return weight * quantity + shipmentMethodCost;
         }
     }
 }

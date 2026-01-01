@@ -2,7 +2,7 @@
 using LogisticsManagementSystem.Models;
 using LogisticsManagementSystem.Repository;
 
-namespace LogisticsManagementSystem.Services
+namespace LogisticsManagementSystem.Services.Implementations
 {
     public class CustomerService
     {

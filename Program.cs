@@ -2,7 +2,8 @@ using System.Text;
 using LogisticsManagementSystem.DbContext;
 using LogisticsManagementSystem.Models;
 using LogisticsManagementSystem.Repository;
-using LogisticsManagementSystem.Services;
+using LogisticsManagementSystem.Services.Implementations;
+using LogisticsManagementSystem.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -19,7 +20,7 @@ namespace LogisticsManagementSystem
 
             #region Register repositories
             builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
-            builder.Services.AddScoped<Services.CustomerService>();
+            builder.Services.AddScoped<Services.Implementations.CustomerService>();
             builder.Services.AddScoped<IRepository<Models.Customer>, Repository<Models.Customer>>();
 
             builder.Services.AddScoped<IShipmentRepository, ShipmentRepository>();
@@ -31,12 +32,12 @@ namespace LogisticsManagementSystem
             builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
             builder.Services.AddScoped<IRepository<Payment>, Repository<Payment>>();
 
-            builder.Services.AddScoped<StripePaymentService>();
-            builder.Services.AddScoped<ShipmentService>();
+            builder.Services.AddScoped<IStripePaymentService, StripePaymentService>();
+            builder.Services.AddScoped<IShipmentService, ShipmentService>();
 
             builder.Services.AddScoped<Models.StripeOptions>();
-            builder.Services.AddScoped<Services.PaymentService>();
-            builder.Services.AddScoped<ShipmentMethodService>();
+            builder.Services.AddScoped<IPaymentService, PaymentService>();
+            builder.Services.AddScoped<IShipmentMethodService, ShipmentMethodService>();
             #endregion
 
 

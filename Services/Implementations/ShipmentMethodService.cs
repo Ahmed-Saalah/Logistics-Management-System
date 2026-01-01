@@ -1,11 +1,13 @@
 ﻿using LogisticsManagementSystem.Models;
 using LogisticsManagementSystem.Repository;
+using LogisticsManagementSystem.Services.Interfaces;
 
-namespace LogisticsManagementSystem.Services
+namespace LogisticsManagementSystem.Services.Implementations
 {
-    public class ShipmentMethodService
+    public class ShipmentMethodService : IShipmentMethodService
     {
         private readonly IShipmentMethodRepository _shipmentMethodRepository;
+
         public ShipmentMethodService(IShipmentMethodRepository shipmentMethodRepository)
         {
             _shipmentMethodRepository = shipmentMethodRepository;
@@ -15,7 +17,7 @@ namespace LogisticsManagementSystem.Services
         {
             return await _shipmentMethodRepository.GetByIdAsync(id);
         }
-        
+
         public async Task<decimal> GetShipmentMethodCostAsync(int id)
         {
             var ShipmentMethod = await _shipmentMethodRepository.GetByIdAsync(id);
@@ -24,7 +26,7 @@ namespace LogisticsManagementSystem.Services
             {
                 ShipmentMethod = await GetDefultShipmentMethod();
             }
-            
+
             return ShipmentMethod.Cost;
         }
 
@@ -32,6 +34,5 @@ namespace LogisticsManagementSystem.Services
         {
             return await _shipmentMethodRepository.GetByIdAsync(1);
         }
-
     }
 }
