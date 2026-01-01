@@ -27,7 +27,7 @@ namespace LogisticsManagementSystem.Models
         public string? Description { get; set; }
         public string? Status { get; set; } = ShipmentStatus.Pending;
         public string TrackingNumber { get; set; }
-        public DateTime? CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
         #endregion
 
         public int UserId { get; set; }

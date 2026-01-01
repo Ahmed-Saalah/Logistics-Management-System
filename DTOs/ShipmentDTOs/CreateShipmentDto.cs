@@ -28,14 +28,7 @@ namespace LogisticsManagementSystem.DTOs.ShipmentDTOs
         #endregion
 
         #region Payment Details
-        public PaymentStatus PaymentStatus { get; set; } = PaymentStatus.Pending;
+        public string PaymentStatus { get; set; } = Constants.PaymentStatus.Pending;
         #endregion
-    }
-
-    public enum PaymentStatus
-    {
-        Pending = 1,
-        Completed = 2,
-        Failed = 3,
     }
 }

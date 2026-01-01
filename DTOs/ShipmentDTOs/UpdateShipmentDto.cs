@@ -2,7 +2,6 @@
 {
     public class UpdateShipmentDto
     {
-        public int ShipmentId { get; set; }
         public string ShipperCountry { get; set; }
         public string ShipperCity { get; set; }
         public string ShipperStreet { get; set; }

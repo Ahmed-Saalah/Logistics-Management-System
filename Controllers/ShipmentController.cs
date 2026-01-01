@@ -41,8 +41,8 @@ namespace LogisticsManagementSystem.Controllers
                     ShipmentId = shipemnt.ShipmentId,
                     ShipperName = shipemnt.ShipperName,
                     ReceiverName = shipemnt.ReceiverName,
-                    CreatedAt = shipemnt.CreatedAt.Value,
-                    Status = shipemnt.Status,
+                    CreatedAt = shipemnt.CreatedAt,
+                    Status = shipemnt.Status!,
                 };
 
                 return Ok(shipmentDTO);
@@ -60,7 +60,7 @@ namespace LogisticsManagementSystem.Controllers
             }
         }
 
-        [HttpGet("by-tracking/{trackingNumber}")]
+        [HttpGet("tracking/{trackingNumber}")]
         public async Task<IActionResult> GetByTrackingNumber(string trackingNumber)
         {
             try
@@ -77,8 +77,8 @@ namespace LogisticsManagementSystem.Controllers
                     ShipmentId = shipemnt.ShipmentId,
                     ShipperName = shipemnt.ShipperName,
                     ReceiverName = shipemnt.ReceiverName,
-                    CreatedAt = shipemnt.CreatedAt.Value,
-                    Status = shipemnt.Status,
+                    CreatedAt = shipemnt.CreatedAt,
+                    Status = shipemnt.Status!,
                 };
 
                 return Ok(shipmentDTO);
@@ -98,7 +98,7 @@ namespace LogisticsManagementSystem.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateShipmentDto shipmentCreateDTO)
+        public async Task<IActionResult> Create([FromBody] CreateShipmentDto createShipmentDto)
         {
             if (!ModelState.IsValid)
             {
@@ -119,12 +119,11 @@ namespace LogisticsManagementSystem.Controllers
                 }
 
                 var shipment = await _shipmentService.CreateShipmentAsync(
-                    shipmentCreateDTO,
+                    createShipmentDto,
                     user.Id
                 );
 
-                //return CreatedAtAction(nameof(GetById), new { id = shipment.ShipmentId }, shipment);
-                return Ok(shipment);
+                return CreatedAtAction(nameof(GetById), new { id = shipment.ShipmentId }, shipment);
             }
             catch (ArgumentException ex)
             {
@@ -139,7 +138,8 @@ namespace LogisticsManagementSystem.Controllers
             }
         }
 
-        [HttpPut]
+        [Authorize]
+        [HttpPut("{id:int}")]
         public async Task<IActionResult> Update(
             int id,
             [FromBody] UpdateShipmentDto updateShipmentDto
@@ -149,14 +149,6 @@ namespace LogisticsManagementSystem.Controllers
             {
                 return BadRequest(new { Message = "Shipment data cannot be null." });
             }
-
-            if (id != updateShipmentDto.ShipmentId)
-                return BadRequest(
-                    new
-                    {
-                        Message = "Shipment ID in the URL does not match the Shipment ID in the request body.",
-                    }
-                );
 
             try
             {
@@ -180,6 +172,7 @@ namespace LogisticsManagementSystem.Controllers
             }
         }
 
+        [Authorize]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -200,11 +193,6 @@ namespace LogisticsManagementSystem.Controllers
                 );
             }
         }
-
-        /// <summary>
-        /// Rate Calculator API
-        /// inquire about shipping rate and provide customers with real time rates.
-        /// </summary>
 
         [HttpPost("rateCalculator")]
         public async Task<IActionResult> RateCalculatorAsync(
@@ -233,11 +221,11 @@ namespace LogisticsManagementSystem.Controllers
                     shipmentMethodCost
                 );
 
-                return Ok(new { totalCost });
+                return Ok(new { TotalCost = totalCost });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                return StatusCode(500, $"An error occurred while calculating the shipment rate.");
             }
         }
     }
