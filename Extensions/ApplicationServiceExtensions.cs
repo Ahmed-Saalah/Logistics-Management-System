@@ -23,7 +23,11 @@ namespace LogisticsManagementSystem.Extensions
 
             // 2. Stripe Configuration
             services.AddOptions<StripeOptions>().Bind(config.GetSection("Stripe"));
-            services.AddSingleton<StripeOptions>();
+            services.AddSingleton(resolver =>
+                resolver
+                    .GetRequiredService<Microsoft.Extensions.Options.IOptions<StripeOptions>>()
+                    .Value
+            );
             services.AddScoped<IStripePaymentService, StripePaymentService>();
 
             // 3. Repositories
@@ -35,7 +39,6 @@ namespace LogisticsManagementSystem.Extensions
             services.AddScoped<IShipmentService, ShipmentService>();
             services.AddScoped<IShipmentMethodService, ShipmentMethodService>();
             services.AddScoped<IPaymentService, PaymentService>();
-            services.AddScoped<IStripePaymentService, StripePaymentService>();
 
             // 5. Controllers & JSON Options
             services

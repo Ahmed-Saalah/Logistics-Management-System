@@ -5,7 +5,7 @@ namespace LogisticsManagementSystem
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +16,12 @@ namespace LogisticsManagementSystem
             builder.Services.AddApplicationServices(builder.Configuration);
 
             var app = builder.Build();
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetRequiredService<DbContext.AppDbContext>();
+                await Configurations.Seed.ShipmentMethodSeder.SeedAsync(context);
+            }
 
             StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 
