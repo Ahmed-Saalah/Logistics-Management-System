@@ -1,0 +1,28 @@
+﻿using LogisticsManagementSystem.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace LogisticsManagementSystem.configurations
+{
+    public class Paymentconfiguration : IEntityTypeConfiguration<Payment>
+    {
+        public void Configure(EntityTypeBuilder<Payment> builder)
+        {
+            builder.HasKey(p => p.PaymentId);
+
+            builder.Property(p => p.Amount).IsRequired();
+
+            builder
+                .HasOne(p => p.Shipment)
+                .WithOne(s => s.Payment)
+                .HasForeignKey<Shipment>(s => s.PaymentId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            builder
+                .HasOne(p => p.Customer)
+                .WithMany()
+                .HasForeignKey(p => p.CustomerId)
+                .OnDelete(DeleteBehavior.Restrict);
+        }
+    }
+}

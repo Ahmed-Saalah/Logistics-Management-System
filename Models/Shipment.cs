@@ -1,4 +1,6 @@
-﻿namespace LogisticsManagementSystem.Models
+﻿using LogisticsManagementSystem.Constants;
+
+namespace LogisticsManagementSystem.Models
 {
     public class Shipment
     {
@@ -23,26 +25,15 @@
         public int Quantity { get; set; }
         public decimal Weight { get; set; }
         public string? Description { get; set; }
-        public ShipmentStatus? Status { get; set; }
-        public string? TrackingNumber { get; set; }
+        public string? Status { get; set; } = ShipmentStatus.Pending;
+        public string TrackingNumber { get; set; }
         public DateTime? CreatedAt { get; set; } = DateTime.Now;
         #endregion
 
         public int CustomerId { get; set; }
         public int? PaymentId { get; set; }
         public Customer? Customer { get; set; }
-        public ShipmentMethod? ShipmentMethod { get; set; } 
+        public ShipmentMethod? ShipmentMethod { get; set; }
         public Payment? Payment { get; set; }
-
-    }
-    public enum ShipmentStatus
-    {
-        Pending = 1,
-        Shipped = 2,
-        InTransit = 3,
-        Delivered = 4,
-        Cancelled = 5
     }
 }
-
-
