@@ -98,5 +98,23 @@ namespace LogisticsManagementSystem.Controllers
                 return StatusCode(500, new { Message = "An error occurred.", Error = ex.Message });
             }
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetPaymentById([FromRoute] int id)
+        {
+            try
+            {
+                var payment = await _paymentService.GetPaymentByIdAsync(id);
+                if (payment == null)
+                {
+                    return NotFound(new { Message = "Payment not found." });
+                }
+                return Ok(payment);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Message = "An error occurred.", Error = ex.Message });
+            }
+        }
     }
 }
