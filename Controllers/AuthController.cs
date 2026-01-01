@@ -1,7 +1,5 @@
 ﻿using LogisticsManagementSystem.DTOs.IdentityDTOs;
-using LogisticsManagementSystem.Models;
 using LogisticsManagementSystem.Services.Interfaces;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LogisticsManagementSystem.Controllers

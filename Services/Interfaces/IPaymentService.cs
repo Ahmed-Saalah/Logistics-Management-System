@@ -1,4 +1,5 @@
-﻿using LogisticsManagementSystem.Models;
+﻿using LogisticsManagementSystem.DTOs.Responses;
+using LogisticsManagementSystem.Models;
 
 namespace LogisticsManagementSystem.Services.Interfaces
 {
@@ -11,8 +12,8 @@ namespace LogisticsManagementSystem.Services.Interfaces
 
         Task<Payment> GetPaymentByIdAsync(int paymentId);
 
-        Task UpdatePaymentAsync(int paymentId, Payment updatedPayment);
+        Task<ServiceResponse> UpdatePaymentAsync(int paymentId, Payment updatedPayment);
 
-        Task DeletePaymentAsync(int paymentId);
+        Task<ServiceResponse> DeletePaymentAsync(int paymentId);
     }
 }

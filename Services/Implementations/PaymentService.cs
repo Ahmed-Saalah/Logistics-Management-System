@@ -1,4 +1,5 @@
-﻿using LogisticsManagementSystem.Models;
+﻿using LogisticsManagementSystem.DTOs.Responses;
+using LogisticsManagementSystem.Models;
 using LogisticsManagementSystem.Repository.Interfaces;
 using LogisticsManagementSystem.Services.Interfaces;
 
@@ -36,13 +37,13 @@ namespace LogisticsManagementSystem.Services.Implementations
             return payment;
         }
 
-        public async Task UpdatePaymentAsync(int paymentId, Payment updatedPayment)
+        public async Task<ServiceResponse> UpdatePaymentAsync(int paymentId, Payment updatedPayment)
         {
             var existingPayment = await _paymentRepository.GetByIdAsync(paymentId);
 
             if (existingPayment == null)
             {
-                throw new ArgumentException($"Payment with ID {paymentId} not found.");
+                return new ServiceResponse(false, "payment not found");
             }
 
             existingPayment.Amount = updatedPayment.Amount;
@@ -50,18 +51,20 @@ namespace LogisticsManagementSystem.Services.Implementations
             existingPayment.ShipemntId = updatedPayment.ShipemntId;
 
             await _paymentRepository.UpdateAsync(existingPayment);
+            return new ServiceResponse(true, "payment updated successfully");
         }
 
-        public async Task DeletePaymentAsync(int paymentId)
+        public async Task<ServiceResponse> DeletePaymentAsync(int paymentId)
         {
             var payment = await _paymentRepository.GetByIdAsync(paymentId);
 
             if (payment == null)
             {
-                throw new ArgumentException($"Payment with ID {paymentId} not found.");
+                return new ServiceResponse(false, $"Payment with ID {paymentId} not found.");
             }
 
             await _paymentRepository.DeleteAsync(paymentId);
+            return new ServiceResponse(true, "payment deleted successfully");
         }
     }
 }
