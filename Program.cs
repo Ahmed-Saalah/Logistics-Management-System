@@ -1,15 +1,4 @@
-using System.Text;
-using LogisticsManagementSystem.DbContext;
 using LogisticsManagementSystem.Extensions;
-using LogisticsManagementSystem.Models;
-using LogisticsManagementSystem.Repository.Implementations;
-using LogisticsManagementSystem.Repository.Interfaces;
-using LogisticsManagementSystem.Services.Implementations;
-using LogisticsManagementSystem.Services.Interfaces;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using Stripe;
 
 namespace LogisticsManagementSystem
