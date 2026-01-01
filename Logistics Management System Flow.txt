@@ -1,0 +1,59 @@
+1)
+- Project Scope:
+Project Name: Logistics Management System
+•Technologies: C#, ASP.NET Core, SQL Server, Stripe (for payments), Routing Algorithm
+•Description: Developed the backend of a logistics management system designed to manage shipments, track
+orders, and handle customer payments. The system enables order creation, status tracking, payment
+processing, and customer management. It supports multiple shipping methods and integrates with external
+payment gateways without requiring route optimization for deliveries.
+
+2)
+-System architecture:
+. Components:
+1- Customer.
+2- Shipment
+3- Shipments method
+3- Payment
+5- Vehicle (TODO)
+6- Route (TODO)
+7- Employee (TODO)
+
+
+3) Relations:
+Customer and Shipment : (1:M) A customer can have multiple shipments.
+Shipment and Payment: (1:1) Each shipment is associated with a single payment record.
+Shipment and Shipment Method: (M:1) Multiple shipments can share the same shipping method.
+
+4) Endpoints for the web API:
+1- Customer Management: 
+. Post/customer : Create Customer
+. Get/customer/{id}: Get customer details
+. PUT/customer/{id} : Update customer information.
+- Delete/customer/{id} : Delete customer.
+
+2- Shipment Management:
+. Post/shipment : Create a anew shipment (linking customer, items, and shipping method).
+. Get/shipment/{id}: Get details of a specific shipment.
+. Put/shipment/{id}: Update an existing shipment.
+. Get/shipment: Get a list of shipments (with filters for status, customer, etc).
+
+3- Payment Management:
+. Post/payment : Create a new payment for an shipment (integrate with stripe for payment processing)
+. Get/payment/{id}: get details of a specific payment
+. Get/payment/shipment/{shipemntId} : Get a payment details for a specific shipment.
+
+4- Rout Optimization: (Feature) (TODO)
+. Post/routes/optimize : Optimize a route based on origin, destination, and shipments.
+
+
+5) Features and Milestones:
+
+- Basic shipment creation and management. -> Done
+- Customer registration and management. -> Done
+- Payment integration -> Done
+- Shipment Tracking by Tracking number. -> Done
+- Advanced features like rate calculators. -> (DONE)
+
+- Shipment tracking by status and location.
+- Integration of vehicles and routes for delivery.
+- Route optimization.

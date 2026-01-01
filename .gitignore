@@ -1,3 +1,42 @@
-appsettings.json
-appsettings.Development.json
+# Build Folders
+bin/
+obj/
+
+# Log Files
+*.log
+
+# Visual Studio
+.vscode/
 .vs/
+
+# NuGet Packages
+*.nupkg
+packages/
+*.snupkg
+
+# DotNet Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+*.lock.json
+
+# Temporary Files
+*.tmp
+*.temp
+*.tmp/
+*.temp/
+
+# Environment Files
+*.env
+.env.*
+
+# Configuration
+appsettings*.json
+appsettings*.Development.json
+appsettings*.Production.json
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
