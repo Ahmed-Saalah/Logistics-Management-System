@@ -1,4 +1,4 @@
-﻿namespace LogisticsManagementSystem.Models
+﻿namespace Logex.API.Models
 {
     public class RefreshToken
     {

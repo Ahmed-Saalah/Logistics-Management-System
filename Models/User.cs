@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace LogisticsManagementSystem.Models
+namespace Logex.API.Models
 {
     public class User : IdentityUser<int>
     {

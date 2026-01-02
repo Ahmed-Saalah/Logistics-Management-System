@@ -1,13 +1,16 @@
-﻿using System.Text.Json.Serialization;
-using LogisticsManagementSystem.DbContext;
-using LogisticsManagementSystem.Repository.Implementations;
-using LogisticsManagementSystem.Repository.Interfaces;
-using LogisticsManagementSystem.Services.Implementations;
-using LogisticsManagementSystem.Services.Interfaces;
-using LogisticsManagementSystem.Settings;
+﻿using System.Reflection;
+using System.Text.Json.Serialization;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using Logex.API.DbContext;
+using Logex.API.Repository.Implementations;
+using Logex.API.Repository.Interfaces;
+using Logex.API.Services.Implementations;
+using Logex.API.Services.Interfaces;
+using Logex.API.Settings;
 using Microsoft.EntityFrameworkCore;
 
-namespace LogisticsManagementSystem.Extensions
+namespace Logex.API.Extensions
 {
     public static class ApplicationServiceExtensions
     {
@@ -53,13 +56,18 @@ namespace LogisticsManagementSystem.Extensions
                 });
 
             // 6. CORS & Swagger
-            services.AddCors(options =>
-            {
-                options.AddPolicy(
-                    "MyPolicy",
-                    policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()
-                );
-            });
+            services
+                .AddCors(options =>
+                {
+                    options.AddPolicy(
+                        "MyPolicy",
+                        policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()
+                    );
+                })
+                .AddFluentValidationAutoValidation()
+                .AddFluentValidationClientsideAdapters();
+
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();

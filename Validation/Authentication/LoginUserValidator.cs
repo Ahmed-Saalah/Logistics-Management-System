@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using LogisticsManagementSystem.DTOs.IdentityDTOs;
+using Logex.API.DTOs.IdentityDTOs;
 
-namespace LogisticsManagementSystem.Validation.Authentication
+namespace Logex.API.Validation.Authentication
 {
     public class LoginUserValidator : AbstractValidator<LoginDTO>
     {

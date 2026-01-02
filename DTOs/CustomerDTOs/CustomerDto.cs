@@ -1,4 +1,4 @@
-﻿namespace LogisticsManagementSystem.DTOs.CustomerDTOs
+﻿namespace Logex.API.DTOs.CustomerDTOs
 {
     public class CustomerDto
     {

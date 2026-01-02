@@ -1,8 +1,8 @@
-﻿using LogisticsManagementSystem.Models;
+﻿using Logex.API.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace LogisticsManagementSystem.configurations
+namespace Logex.API.Configurations
 {
     public class Paymentconfiguration : IEntityTypeConfiguration<Payment>
     {

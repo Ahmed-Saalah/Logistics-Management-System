@@ -1,9 +1,9 @@
-﻿using LogisticsManagementSystem.DTOs;
-using LogisticsManagementSystem.Models;
-using LogisticsManagementSystem.Repository.Interfaces;
-using LogisticsManagementSystem.Services.Interfaces;
+﻿using Logex.API.DTOs;
+using Logex.API.Models;
+using Logex.API.Repository.Interfaces;
+using Logex.API.Services.Interfaces;
 
-namespace LogisticsManagementSystem.Services.Implementations
+namespace Logex.API.Services.Implementations
 {
     public class PaymentService : IPaymentService
     {

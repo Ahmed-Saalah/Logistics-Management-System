@@ -1,9 +1,9 @@
-﻿using LogisticsManagementSystem.Models;
+﻿using Logex.API.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace LogisticsManagementSystem.DbContext
+namespace Logex.API.DbContext
 {
     public class AppDbContext : IdentityDbContext<User, IdentityRole<int>, int>
     {

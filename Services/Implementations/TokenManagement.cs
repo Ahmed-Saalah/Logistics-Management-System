@@ -3,13 +3,13 @@ using System.Net;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using LogisticsManagementSystem.DbContext;
-using LogisticsManagementSystem.Models;
-using LogisticsManagementSystem.Services.Interfaces;
+using Logex.API.DbContext;
+using Logex.API.Models;
+using Logex.API.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
-namespace LogisticsManagementSystem.Services.Implementations
+namespace Logex.API.Services.Implementations
 {
     public class TokenManagement(AppDbContext context, IConfiguration config) : ITokenManagement
     {

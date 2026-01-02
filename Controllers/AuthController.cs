@@ -1,8 +1,8 @@
-﻿using LogisticsManagementSystem.DTOs.IdentityDTOs;
-using LogisticsManagementSystem.Services.Interfaces;
+﻿using Logex.API.DTOs.IdentityDTOs;
+using Logex.API.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LogisticsManagementSystem.Controllers
+namespace Logex.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

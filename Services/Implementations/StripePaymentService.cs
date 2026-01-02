@@ -1,11 +1,11 @@
-﻿using LogisticsManagementSystem.Models;
-using LogisticsManagementSystem.Services.Interfaces;
-using LogisticsManagementSystem.Settings;
+﻿using Logex.API.Models;
+using Logex.API.Services.Interfaces;
+using Logex.API.Settings;
 using Microsoft.Extensions.Options;
 using Stripe;
 using Stripe.Checkout;
 
-namespace LogisticsManagementSystem.Services.Implementations
+namespace Logex.API.Services.Implementations
 {
     public class StripePaymentService : IStripePaymentService
     {

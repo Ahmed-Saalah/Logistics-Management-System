@@ -1,7 +1,7 @@
-﻿using LogisticsManagementSystem.DTOs;
-using LogisticsManagementSystem.Models;
+﻿using Logex.API.DTOs;
+using Logex.API.Models;
 
-namespace LogisticsManagementSystem.Services.Interfaces
+namespace Logex.API.Services.Interfaces
 {
     /// <summary>
     /// Interface for payment-related operations.

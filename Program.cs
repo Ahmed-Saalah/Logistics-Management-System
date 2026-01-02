@@ -1,7 +1,7 @@
-using LogisticsManagementSystem.Extensions;
+using Logex.API.Extensions;
 using Stripe;
 
-namespace LogisticsManagementSystem
+namespace Logex.API
 {
     public class Program
     {

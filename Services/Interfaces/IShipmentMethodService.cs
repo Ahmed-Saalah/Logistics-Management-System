@@ -1,6 +1,6 @@
-﻿using LogisticsManagementSystem.Models;
+﻿using Logex.API.Models;
 
-namespace LogisticsManagementSystem.Services.Interfaces
+namespace Logex.API.Services.Interfaces
 {
     public interface IShipmentMethodService
     {

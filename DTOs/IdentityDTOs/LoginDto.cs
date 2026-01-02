@@ -1,4 +1,4 @@
-﻿namespace LogisticsManagementSystem.DTOs.IdentityDTOs
+﻿namespace Logex.API.DTOs.IdentityDTOs
 {
     public class LoginDTO
     {

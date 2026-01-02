@@ -1,8 +1,8 @@
-﻿using LogisticsManagementSystem.DTOs;
-using LogisticsManagementSystem.DTOs.ShipmentDTOs;
-using LogisticsManagementSystem.Models;
+﻿using Logex.API.DTOs;
+using Logex.API.DTOs.ShipmentDTOs;
+using Logex.API.Models;
 
-namespace LogisticsManagementSystem.Services.Interfaces
+namespace Logex.API.Services.Interfaces
 {
     public interface IShipmentService
     {

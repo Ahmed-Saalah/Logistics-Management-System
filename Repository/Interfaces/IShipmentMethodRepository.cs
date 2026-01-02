@@ -1,6 +1,6 @@
-﻿using LogisticsManagementSystem.Models;
+﻿using Logex.API.Models;
 
-namespace LogisticsManagementSystem.Repository.Interfaces
+namespace Logex.API.Repository.Interfaces
 {
     public interface IShipmentMethodRepository : IRepository<ShipmentMethod>
     {

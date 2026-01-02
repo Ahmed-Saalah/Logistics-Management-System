@@ -1,11 +1,11 @@
 ﻿using System.Text;
-using LogisticsManagementSystem.DbContext;
-using LogisticsManagementSystem.Models;
+using Logex.API.DbContext;
+using Logex.API.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
-namespace LogisticsManagementSystem.Extensions
+namespace Logex.API.Extensions
 {
     public static class IdentityServiceExtensions
     {

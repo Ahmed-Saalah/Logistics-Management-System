@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 
-namespace LogisticsManagementSystem.Services.Interfaces
+namespace Logex.API.Services.Interfaces
 {
     public interface ITokenManagement
     {

@@ -1,7 +1,7 @@
-﻿using LogisticsManagementSystem.DbContext;
-using LogisticsManagementSystem.Models;
+﻿using Logex.API.DbContext;
+using Logex.API.Models;
 
-namespace LogisticsManagementSystem.Configurations.Seed
+namespace Logex.API.Configurations.Seed
 {
     public static class ShipmentMethodSeder
     {

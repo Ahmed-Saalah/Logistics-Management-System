@@ -1,4 +1,4 @@
-﻿namespace LogisticsManagementSystem.Constants
+﻿namespace Logex.API.Constants
 {
     public class ShipmentStatus
     {

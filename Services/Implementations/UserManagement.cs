@@ -1,11 +1,11 @@
 ﻿using System.Security.Claims;
-using LogisticsManagementSystem.DbContext;
-using LogisticsManagementSystem.Models;
-using LogisticsManagementSystem.Services.Interfaces;
+using Logex.API.DbContext;
+using Logex.API.Models;
+using Logex.API.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace LogisticsManagementSystem.Services.Implementations
+namespace Logex.API.Services.Implementations
 {
     public class UserManagement(UserManager<User> userManager, AppDbContext context)
         : IUserManagement

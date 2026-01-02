@@ -1,10 +1,10 @@
-﻿using LogisticsManagementSystem.Constants;
-using LogisticsManagementSystem.DTOs.PaymentDTOs;
-using LogisticsManagementSystem.Models;
-using LogisticsManagementSystem.Services.Interfaces;
+﻿using Logex.API.Constants;
+using Logex.API.DTOs.PaymentDTOs;
+using Logex.API.Models;
+using Logex.API.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LogisticsManagementSystem.Controllers
+namespace Logex.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

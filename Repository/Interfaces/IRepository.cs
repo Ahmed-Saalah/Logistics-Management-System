@@ -1,4 +1,4 @@
-﻿namespace LogisticsManagementSystem.Repository.Interfaces
+﻿namespace Logex.API.Repository.Interfaces
 {
     public interface IRepository<T>
         where T : class

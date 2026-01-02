@@ -1,7 +1,7 @@
-﻿using LogisticsManagementSystem.DTOs;
-using LogisticsManagementSystem.DTOs.IdentityDTOs;
+﻿using Logex.API.DTOs;
+using Logex.API.DTOs.IdentityDTOs;
 
-namespace LogisticsManagementSystem.Services.Interfaces
+namespace Logex.API.Services.Interfaces
 {
     public interface IAuthService
     {

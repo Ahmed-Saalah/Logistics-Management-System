@@ -1,9 +1,9 @@
-﻿using LogisticsManagementSystem.DbContext;
-using LogisticsManagementSystem.Models;
-using LogisticsManagementSystem.Repository.Interfaces;
+﻿using Logex.API.DbContext;
+using Logex.API.Models;
+using Logex.API.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace LogisticsManagementSystem.Repository.Implementations
+namespace Logex.API.Repository.Implementations
 {
     public class ShipmentRepository : Repository<Shipment>, IShipmentRepository
     {

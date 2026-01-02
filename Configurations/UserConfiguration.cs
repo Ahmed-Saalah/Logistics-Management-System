@@ -1,8 +1,8 @@
-﻿using LogisticsManagementSystem.Models;
+﻿using Logex.API.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace LogisticsManagementSystem.Configurations
+namespace Logex.API.Configurations
 {
     public class AppUserConfiguration : IEntityTypeConfiguration<User>
     {

@@ -1,6 +1,6 @@
-﻿using LogisticsManagementSystem.Constants;
+﻿using Logex.API.Constants;
 
-namespace LogisticsManagementSystem.DTOs.ShipmentDTOs
+namespace Logex.API.DTOs.ShipmentDTOs
 {
     public class CreateShipmentDto
     {

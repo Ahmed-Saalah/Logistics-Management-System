@@ -1,6 +1,6 @@
-﻿using LogisticsManagementSystem.Models;
+﻿using Logex.API.Models;
 
-namespace LogisticsManagementSystem.DTOs.ShipmentDTOs
+namespace Logex.API.DTOs.ShipmentDTOs
 {
     public class ShipmentDTO
     {

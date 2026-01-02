@@ -1,4 +1,4 @@
-﻿namespace LogisticsManagementSystem.Settings
+﻿namespace Logex.API.Settings
 {
     public class StripeOptions
     {

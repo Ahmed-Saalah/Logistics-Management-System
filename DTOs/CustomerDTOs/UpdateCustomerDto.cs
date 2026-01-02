@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace LogisticsManagementSystem.DTOs.CustomerDTOs
+namespace Logex.API.DTOs.CustomerDTOs
 {
     public class UpdateCustomerDto
     {

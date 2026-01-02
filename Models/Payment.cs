@@ -1,6 +1,6 @@
-﻿using LogisticsManagementSystem.Constants;
+﻿using Logex.API.Constants;
 
-namespace LogisticsManagementSystem.Models
+namespace Logex.API.Models
 {
     public class Payment
     {

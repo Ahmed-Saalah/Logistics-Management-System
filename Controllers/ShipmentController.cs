@@ -1,9 +1,9 @@
-﻿using LogisticsManagementSystem.DTOs.ShipmentDTOs;
-using LogisticsManagementSystem.Services.Interfaces;
+﻿using Logex.API.DTOs.ShipmentDTOs;
+using Logex.API.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LogisticsManagementSystem.Controllers
+namespace Logex.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

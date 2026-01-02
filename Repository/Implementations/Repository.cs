@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using LogisticsManagementSystem.DbContext;
-using LogisticsManagementSystem.Repository.Interfaces;
+using Logex.API.DbContext;
+using Logex.API.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace LogisticsManagementSystem.Repository.Implementations
+namespace Logex.API.Repository.Implementations
 {
     public class Repository<T> : IRepository<T>
         where T : class

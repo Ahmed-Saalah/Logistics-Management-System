@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
-using LogisticsManagementSystem.DTOs;
-using LogisticsManagementSystem.DTOs.IdentityDTOs;
-using LogisticsManagementSystem.Models;
-using LogisticsManagementSystem.Services.Interfaces;
+using Logex.API.DTOs;
+using Logex.API.DTOs.IdentityDTOs;
+using Logex.API.Models;
+using Logex.API.Services.Interfaces;
 
-namespace LogisticsManagementSystem.Services.Implementations
+namespace Logex.API.Services.Implementations
 {
     public class AuthService(
         ITokenManagement tokenManagement,

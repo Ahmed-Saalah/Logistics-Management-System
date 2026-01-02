@@ -1,7 +1,7 @@
-﻿using LogisticsManagementSystem.Models;
-using LogisticsManagementSystem.Services.Interfaces;
+﻿using Logex.API.Models;
+using Logex.API.Services.Interfaces;
 
-namespace LogisticsManagementSystem.Services.Implementations
+namespace Logex.API.Services.Implementations
 {
     public class PricingService : IPricingService
     {
