@@ -1,30 +1,63 @@
-﻿using LogisticsManagementSystem.Services.Interfaces;
+﻿using LogisticsManagementSystem.Models;
+using LogisticsManagementSystem.Services.Interfaces;
+using LogisticsManagementSystem.Settings;
+using Microsoft.Extensions.Options;
 using Stripe;
+using Stripe.Checkout;
 
 namespace LogisticsManagementSystem.Services.Implementations
 {
     public class StripePaymentService : IStripePaymentService
     {
-        public async Task<PaymentIntent> CreatePaymentIntent(
-            decimal amount,
-            string currency = "usd"
-        )
-        {
-            var options = new PaymentIntentCreateOptions
-            {
-                Amount = (long)(amount * 100),
-                Currency = currency,
-                PaymentMethodTypes = new List<string> { "card" },
-            };
+        private readonly StripeOptions _stripeOptions;
 
-            var service = new PaymentIntentService();
-            return await service.CreateAsync(options);
+        public StripePaymentService(IOptions<StripeOptions> stripeOptions)
+        {
+            _stripeOptions = stripeOptions.Value;
+            StripeConfiguration.ApiKey = _stripeOptions.SecretKey;
         }
 
-        public async Task<PaymentIntent> ConfirmPayment(string paymentIntentId)
+        public async Task<string> CreateCheckoutSessionAsync(
+            Payment payment,
+            Shipment shipment,
+            string originUrl
+        )
         {
-            var service = new PaymentIntentService();
-            return await service.ConfirmAsync(paymentIntentId);
+            var options = new SessionCreateOptions
+            {
+                Mode = "payment",
+                ClientReferenceId = shipment.ShipmentId.ToString(),
+                // Use the passed origin to build dynamic URLs
+                SuccessUrl = $"{originUrl}/confirmation.html",
+                CancelUrl = $"{originUrl}/index.html",
+                LineItems = new List<SessionLineItemOptions>
+                {
+                    new SessionLineItemOptions
+                    {
+                        PriceData = new SessionLineItemPriceDataOptions
+                        {
+                            Currency = "usd",
+                            ProductData = new SessionLineItemPriceDataProductDataOptions
+                            {
+                                Name = $"Shipment #{shipment.ShipmentId}",
+                                Description = shipment.ShipmentMethod?.Name ?? "Logistics Service",
+                            },
+                            UnitAmount = (long)(payment.Amount * 100),
+                        },
+                        Quantity = 1,
+                    },
+                },
+                Metadata = new Dictionary<string, string>
+                {
+                    { "PaymentId", payment.PaymentId.ToString() },
+                    { "ShipmentId", shipment.ShipmentId.ToString() },
+                },
+            };
+
+            var service = new SessionService();
+            var session = await service.CreateAsync(options);
+
+            return session.Url;
         }
     }
 }

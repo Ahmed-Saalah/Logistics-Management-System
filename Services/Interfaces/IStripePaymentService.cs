@@ -1,14 +1,15 @@
-﻿using Stripe;
+﻿using LogisticsManagementSystem.Models;
+using Stripe;
 
 namespace LogisticsManagementSystem.Services.Interfaces
 {
-    /// <summary>
-    /// Interface for Stripe payment processing service.
-    /// </summary>
     public interface IStripePaymentService
     {
-        Task<PaymentIntent> CreatePaymentIntent(decimal amount, string currency);
-
-        Task<PaymentIntent> ConfirmPayment(string paymentIntentId);
+        // returns a session object or URL directly
+        Task<string> CreateCheckoutSessionAsync(
+            Payment payment,
+            Shipment shipment,
+            string originUrl
+        );
     }
 }

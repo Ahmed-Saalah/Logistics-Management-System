@@ -39,6 +39,10 @@ namespace LogisticsManagementSystem.Extensions
             services.AddScoped<IShipmentService, ShipmentService>();
             services.AddScoped<IShipmentMethodService, ShipmentMethodService>();
             services.AddScoped<IPaymentService, PaymentService>();
+            services.AddScoped<IPricingService, PricingService>();
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<ITokenManagement, TokenManagement>();
+            services.AddScoped<IUserManagement, UserManagement>();
 
             // 5. Controllers & JSON Options
             services

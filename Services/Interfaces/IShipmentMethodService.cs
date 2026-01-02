@@ -8,6 +8,6 @@ namespace LogisticsManagementSystem.Services.Interfaces
 
         Task<decimal> GetShipmentMethodCostAsync(int id);
 
-        Task<ShipmentMethod> GetDefultShipmentMethod();
+        Task<ShipmentMethod> GetDefaultShipmentMethodAsync();
     }
 }

@@ -1,4 +1,4 @@
-﻿using LogisticsManagementSystem.DTOs.Responses;
+﻿using LogisticsManagementSystem.DTOs;
 using LogisticsManagementSystem.Models;
 
 namespace LogisticsManagementSystem.Services.Interfaces

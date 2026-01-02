@@ -1,4 +1,4 @@
-﻿namespace LogisticsManagementSystem.DTOs.Responses
+﻿namespace LogisticsManagementSystem.DTOs.IdentityDTOs
 {
     public record LoginResponse(
         bool Success = false,

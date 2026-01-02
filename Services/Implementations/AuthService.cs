@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
+using LogisticsManagementSystem.DTOs;
 using LogisticsManagementSystem.DTOs.IdentityDTOs;
-using LogisticsManagementSystem.DTOs.Responses;
 using LogisticsManagementSystem.Models;
 using LogisticsManagementSystem.Services.Interfaces;
 

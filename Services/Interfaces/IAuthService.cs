@@ -1,5 +1,5 @@
-﻿using LogisticsManagementSystem.DTOs.IdentityDTOs;
-using LogisticsManagementSystem.DTOs.Responses;
+﻿using LogisticsManagementSystem.DTOs;
+using LogisticsManagementSystem.DTOs.IdentityDTOs;
 
 namespace LogisticsManagementSystem.Services.Interfaces
 {

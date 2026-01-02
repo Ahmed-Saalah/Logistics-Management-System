@@ -1,4 +1,6 @@
-﻿namespace LogisticsManagementSystem.Models
+﻿using LogisticsManagementSystem.Constants;
+
+namespace LogisticsManagementSystem.Models
 {
     public class Payment
     {
@@ -6,6 +8,7 @@
         public decimal Amount { get; set; }
         public string? CardNumber { get; set; }
         public string? CVC { get; set; }
+        public string Status { get; set; } = PaymentStatus.Pending;
         public int? ShipemntId { get; set; }
         public int UserrId { get; set; }
         public DateTime CreatedAt { get; set; }

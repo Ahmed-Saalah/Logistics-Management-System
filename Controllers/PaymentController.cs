@@ -1,10 +1,8 @@
-﻿using LogisticsManagementSystem.Models;
+﻿using LogisticsManagementSystem.Constants;
+using LogisticsManagementSystem.DTOs.PaymentDTOs;
+using LogisticsManagementSystem.Models;
 using LogisticsManagementSystem.Services.Interfaces;
-using LogisticsManagementSystem.Settings;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using Stripe;
-using Stripe.Checkout;
 
 namespace LogisticsManagementSystem.Controllers
 {
@@ -12,109 +10,65 @@ namespace LogisticsManagementSystem.Controllers
     [ApiController]
     public class PaymentController : ControllerBase
     {
-        private readonly StripeOptions _stripeOptions;
         private readonly IShipmentService _shipmentService;
         private readonly IPaymentService _paymentService;
+        private readonly IStripePaymentService _stripePaymentService;
+        private readonly IPricingService _pricingService;
 
         public PaymentController(
-            IOptionsSnapshot<StripeOptions> stripeOptions,
             IShipmentService shipmentService,
-            IPaymentService paymentService
+            IPaymentService paymentService,
+            IStripePaymentService stripePaymentService,
+            IPricingService pricingService
         )
         {
-            _stripeOptions = stripeOptions.Value;
             _shipmentService = shipmentService;
             _paymentService = paymentService;
+            _stripePaymentService = stripePaymentService;
+            _pricingService = pricingService;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreatePayment([FromBody] Payment payment)
+        [HttpPost("checkout")]
+        public async Task<ActionResult<PaymentInitiationResponse>> InitiateCheckout(
+            [FromBody] InitiatePaymentDto request
+        )
         {
-            try
+            var shipment = await _shipmentService.GetByIdAsync(request.ShipmentId);
+            if (shipment == null)
             {
-                if (!payment.ShipemntId.HasValue)
+                return NotFound(new { Message = "Shipment not found." });
+            }
+
+            var totalAmount = _pricingService.CalculateShipmentTotal(shipment);
+
+            var newPayment = new Payment
+            {
+                ShipemntId = shipment.ShipmentId,
+                Amount = totalAmount,
+                Status = PaymentStatus.Pending,
+                CreatedAt = DateTime.UtcNow,
+            };
+
+            var createdPayment = await _paymentService.CreatePaymentAsync(newPayment);
+
+            shipment.PaymentId = createdPayment.PaymentId;
+            await _shipmentService.Update(shipment);
+
+            var origin = $"{Request.Scheme}://{Request.Host}";
+            var checkoutUrl = await _stripePaymentService.CreateCheckoutSessionAsync(
+                createdPayment,
+                shipment,
+                origin
+            );
+
+            return Ok(
+                new PaymentInitiationResponse
                 {
-                    return BadRequest(new { Message = "ShipmentId is required." });
+                    PaymentId = createdPayment.PaymentId,
+                    Amount = createdPayment.Amount,
+                    CheckoutUrl = checkoutUrl,
                 }
-
-                var shipment = await _shipmentService.GetByIdAsync(payment.ShipemntId.Value);
-
-                if (shipment == null)
-                {
-                    return NotFound(new { Message = "Shipment not found." });
-                }
-
-                payment.Amount =
-                    (shipment.Quantity * shipment.Weight) + shipment.ShipmentMethod.Cost;
-
-                var createdPayment = await _paymentService.CreatePaymentAsync(payment);
-
-                shipment.PaymentId = createdPayment.PaymentId;
-
-                await _shipmentService.Update(shipment);
-
-                // Prepare Stripe Session
-                var origin = $"{Request.Scheme}://{Request.Host}";
-
-                StripeConfiguration.ApiKey = _stripeOptions.SecretKey;
-
-                var stripeSessionService = new SessionService();
-
-                var stripeCheckOutSession = await stripeSessionService.CreateAsync(
-                    new SessionCreateOptions
-                    {
-                        Mode = "payment",
-                        ClientReferenceId = shipment.ShipmentId.ToString(),
-                        SuccessUrl = $"{origin}/confirmation.html",
-                        CancelUrl = $"{origin}/index.html",
-                        LineItems = new()
-                        {
-                            new()
-                            {
-                                PriceData = new()
-                                {
-                                    Currency = "USD",
-                                    ProductData = new() { Name = "Shipment" },
-                                    UnitAmountDecimal = payment.Amount * 100,
-                                },
-                                Quantity = 1,
-                            },
-                        },
-                    }
-                );
-
-                return Ok(
-                    new
-                    {
-                        Message = "Payment successfully created.",
-                        PaymentId = createdPayment.PaymentId,
-                        TotalAmount = payment.Amount,
-                        CheckoutUrl = stripeCheckOutSession.Url,
-                    }
-                );
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { Message = "An error occurred.", Error = ex.Message });
-            }
-        }
-
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetPaymentById([FromRoute] int id)
-        {
-            try
-            {
-                var payment = await _paymentService.GetPaymentByIdAsync(id);
-                if (payment == null)
-                {
-                    return NotFound(new { Message = "Payment not found." });
-                }
-                return Ok(payment);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { Message = "An error occurred.", Error = ex.Message });
-            }
+            );
         }
     }
 }

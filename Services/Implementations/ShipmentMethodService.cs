@@ -20,17 +20,20 @@ namespace LogisticsManagementSystem.Services.Implementations
 
         public async Task<decimal> GetShipmentMethodCostAsync(int id)
         {
-            var ShipmentMethod = await _shipmentMethodRepository.GetByIdAsync(id);
+            var shipmentMethod = await _shipmentMethodRepository.GetByIdAsync(id);
 
-            if (ShipmentMethod == null)
+            if (shipmentMethod == null)
             {
-                ShipmentMethod = await GetDefultShipmentMethod();
+                shipmentMethod = await GetDefaultShipmentMethodAsync();
             }
 
-            return ShipmentMethod.Cost;
+            if (shipmentMethod == null)
+                throw new Exception("Default shipment method not found in database.");
+
+            return shipmentMethod.Cost;
         }
 
-        public async Task<ShipmentMethod> GetDefultShipmentMethod()
+        public async Task<ShipmentMethod> GetDefaultShipmentMethodAsync()
         {
             return await _shipmentMethodRepository.GetByIdAsync(1);
         }
