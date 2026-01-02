@@ -38,5 +38,12 @@ namespace LogisticsManagementSystem.Controllers
 
             return BadRequest(result);
         }
+
+        [HttpGet("refreshToken/{refreshToken}")]
+        public async Task<IActionResult> ReviveToken(string refreshToken)
+        {
+            var result = await _authService.ReviveToken(refreshToken);
+            return result.Success ? Ok(result) : BadRequest(result);
+        }
     }
 }
