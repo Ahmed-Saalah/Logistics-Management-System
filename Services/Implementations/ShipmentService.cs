@@ -73,6 +73,11 @@ namespace Logex.API.Services.Implementations
                     Weight = shipmentCreateDTO.Weight,
                     Description = shipmentCreateDTO.Description,
                     Status = shipmentCreateDTO.Status,
+                    TrackingNumber = Guid.NewGuid()
+                        .ToString()
+                        .Replace("-", "")
+                        .Substring(0, 10)
+                        .ToUpper(),
                     UserId = userId,
                     CreatedAt = DateTime.UtcNow,
                     ShipmentMethod = shipmentMethod,
