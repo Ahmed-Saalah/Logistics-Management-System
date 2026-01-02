@@ -1,30 +1,74 @@
-# Logistics Management System
+# Logex
 
-This Logistics Management System is an **ASP.NET Core Web API** designed to efficiently manage the creation of shipments, track order statuses, handle customer payments, and integrate with external services such as Stripe for payment processing. The system provides a structured and scalable approach to handling logistics and transaction management for businesses.
+**Logex** is a **shipping API built with ASP.NET Core Web API**. It allows businesses to create and manage shipments, track orders, process payments, and integrate with external services like Stripe. The system follows a **scalable, layered architecture** for efficient backend operations.
+
+---
 
 ## Table of Contents
 
-- [Features](#features)
-- [Technology Stack](#technology-stack)
+- [Features](#features)  
+- [Technology Stack](#technology-stack)  
+- [Getting Started](#getting-started)  
+- [API Endpoints](#api-endpoints)
 
+---
 
 ## Features
 
-- **Create Shipment**: Enables users to create shipments by providing essential details such as sender/receiver information, quantity, weight, shipment method, and item details. 
-- **Payment Integration**: Seamlessly integrates with Stripe to process payments for shipments. This allows businesses to handle payment transactions securely using credit or debit cards.
-- **Shipment Methods**: Supports multiple predefined shipment methods, including a default 'Standard' method, allowing flexibility in how shipments are managed.
-- **Customer Authentication**: Utilizes JWT-based authentication (via ASP.NET Identity) to securely verify customer identities, ensuring only authorized users can create shipments or process payments.
-- **Error Handling**: Incorporates robust error handling to provide meaningful responses for common issues such as missing shipment data, invalid payment details, unauthorized access, etc.
-- **Repository Pattern**: The application follows a layered architecture utilizing the **Repository** pattern, separating concerns between data access logic, business logic, and presentation layers, improving maintainability and testability.
+- **Shipment Creation**: Create shipments with sender/receiver information, weight, quantity, item details, and shipment methods.  
+- **Payment Processing**: Securely handle payments through **Stripe**, supporting credit and debit cards.  
+- **Multiple Shipment Methods**: Supports predefined methods (e.g., `Standard`) and can be extended to other shipping options.  
+- **Customer Authentication**: **JWT-based authentication** via ASP.NET Identity ensures only authorized users can create shipments or make payments.  
+- **Error Handling**: Provides meaningful responses for invalid shipment data, payment failures, or unauthorized access.  
+- **Repository Pattern**: Uses a **layered architecture** separating data access, business logic, and presentation layers for maintainability and testability.
 
 ---
 
 ## Technology Stack
 
-- **Backend**: **ASP.NET Core** (C#) - A cross-platform, high-performance framework for building modern, cloud-based web APIs.
-- **Database**: **SQL Server** (or configure any other database provider) - Handles data storage and retrieval.
-- **Payment Gateway**: **Stripe** - Manages secure payment processing.
-- **Authentication**: **JWT-based authentication** (via ASP.NET Identity) - Provides secure authentication for API endpoints.
-- **ORM**: **Entity Framework Core** - Simplifies database interactions and handles migrations.
-- **Stripe API**: Facilitates integration with Stripe for processing payments.
-- **Dependency Injection**: Implements dependency injection for service and repository management.
+- **Backend**: **ASP.NET Core (C#)**
+- **Database**: **SQL Server**
+- **Payment Gateway**: **Stripe API**
+- **Authentication**: **JWT via ASP.NET Identity**
+- **ORM**: **Entity Framework Core** 
+- **Validation**: - **FluentValidation**
+---
+
+## Getting Started
+
+1. Clone the repository:  
+   ```bash
+   git clone https://github.com/Ahmed-Saalah/Logex.git
+2. Open the solution in Visual Studio.
+3. Update appsettings.json with your database connection string and Stripe API keys.
+4. Run database migrations:
+   ```bash
+   dotnet ef database update
+5.Run the project:
+   ```bash
+   dotnet run
+   ```
+6. Access the API via Swagger UI.
+
+## API Endpoints
+
+### **Authentication**  
+- `POST /api/Auth/register` → Register a new user.  
+- `POST /api/Auth/login` → Authenticate and get a JWT token.  
+- `POST /api/Auth/refreshToken/{refreshToken}` → Refresh JWT token.
+
+---
+
+### **Payment**  
+- `POST /api/Payment/checkout` → Process a payment for a shipment
+
+---
+
+### **Shipment**  
+- `POST /api/Shipment` → Create a new shipment
+- `GET /api/Shipment/{id}` → Retrieve shipment details by ID
+- `PUT /api/Shipment/{id}` → Update shipment details by ID
+- `DELETE /api/Shipment/{id}` → Delete a shipment by ID
+- `GET /api/Shipment/{id}` → Retrieve shipment details by ID
+- `GET /api/Shipment/tracking/{trackingNumber}` → Track a shipment by tracking number
+- `POST /api/Shipment/rateCalculator` → Calculate shipping rates
