@@ -8,9 +8,7 @@ namespace LogisticsManagementSystem.Services.Implementations
 {
     public class ShipmentService : IShipmentService
     {
-        private readonly IStripePaymentService _stripePaymentService;
         private readonly IShipmentRepository _shipmentRepository;
-        private readonly IPaymentRepository _paymentRepository;
         private readonly IShipmentMethodRepository _shipmentMethodRepository;
 
         public ShipmentService(
@@ -21,9 +19,7 @@ namespace LogisticsManagementSystem.Services.Implementations
         )
         {
             _shipmentRepository = shipmentRepository;
-            _paymentRepository = paymentRepository;
             _shipmentMethodRepository = shipmentMethodRepository;
-            _stripePaymentService = stripePaymentService;
         }
 
         public async Task<Shipment> CreateShipmentAsync(

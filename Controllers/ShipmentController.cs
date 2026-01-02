@@ -115,7 +115,7 @@ namespace LogisticsManagementSystem.Controllers
                 var user = await _userManagement.GetUserByEmail(username);
                 if (user == null)
                 {
-                    return Unauthorized("Customer not found.");
+                    return Unauthorized("User not found.");
                 }
 
                 var shipment = await _shipmentService.CreateShipmentAsync(
