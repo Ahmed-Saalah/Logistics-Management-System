@@ -26,7 +26,7 @@ namespace Logex.API.Services.Implementations
             var options = new SessionCreateOptions
             {
                 Mode = "payment",
-                ClientReferenceId = shipment.ShipmentId.ToString(),
+                ClientReferenceId = shipment.Id.ToString(),
                 // Use the passed origin to build dynamic URLs
                 SuccessUrl = $"{originUrl}/confirmation.html",
                 CancelUrl = $"{originUrl}/index.html",
@@ -39,7 +39,7 @@ namespace Logex.API.Services.Implementations
                             Currency = "usd",
                             ProductData = new SessionLineItemPriceDataProductDataOptions
                             {
-                                Name = $"Shipment #{shipment.ShipmentId}",
+                                Name = $"Shipment #{shipment.Id}",
                                 Description = shipment.ShipmentMethod?.Name ?? "Logistics Service",
                             },
                             UnitAmount = (long)(payment.Amount * 100),
@@ -49,8 +49,8 @@ namespace Logex.API.Services.Implementations
                 },
                 Metadata = new Dictionary<string, string>
                 {
-                    { "PaymentId", payment.PaymentId.ToString() },
-                    { "ShipmentId", shipment.ShipmentId.ToString() },
+                    { "PaymentId", payment.Id.ToString() },
+                    { "ShipmentId", shipment.Id.ToString() },
                 },
             };
 

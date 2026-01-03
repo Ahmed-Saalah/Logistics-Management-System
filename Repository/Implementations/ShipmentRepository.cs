@@ -1,4 +1,4 @@
-﻿using Logex.API.DbContext;
+﻿using Logex.API.Data;
 using Logex.API.Models;
 using Logex.API.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -31,7 +31,7 @@ namespace Logex.API.Repository.Implementations
         {
             var entity = await _context
                 .Shipments.Include(s => s.ShipmentMethod)
-                .FirstOrDefaultAsync(s => s.ShipmentId == id);
+                .FirstOrDefaultAsync(s => s.Id == id);
 
             return entity;
         }

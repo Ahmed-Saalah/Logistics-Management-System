@@ -1,12 +1,12 @@
-﻿using Logex.API.DTOs;
-using Logex.API.DTOs.IdentityDTOs;
+﻿using Logex.API.Common;
+using Logex.API.Dtos.IdentityDtos;
 
 namespace Logex.API.Services.Interfaces
 {
     public interface IAuthService
     {
-        Task<ServiceResponse> Register(RegisterDTO user);
-        Task<LoginResponse> Login(LoginDTO user);
+        Task<ServiceResponse> Register(RegisterDto user);
+        Task<LoginResponse> Login(LoginDto user);
         Task<LoginResponse> ReviveToken(string refreshToken);
     }
 }

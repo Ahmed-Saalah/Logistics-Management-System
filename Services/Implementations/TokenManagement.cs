@@ -3,7 +3,7 @@ using System.Net;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using Logex.API.DbContext;
+using Logex.API.Data;
 using Logex.API.Models;
 using Logex.API.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;

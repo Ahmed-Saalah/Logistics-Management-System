@@ -1,4 +1,4 @@
-﻿namespace Logex.API.DTOs.ShipmentDTOs
+﻿namespace Logex.API.Dtos.ShipmentDtos
 {
     public class UpdateShipmentDto
     {

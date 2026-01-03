@@ -1,5 +1,5 @@
 ﻿using Logex.API.Constants;
-using Logex.API.DTOs.PaymentDTOs;
+using Logex.API.Dtos.PaymentDtos;
 using Logex.API.Models;
 using Logex.API.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -39,11 +39,11 @@ namespace Logex.API.Controllers
                 return NotFound(new { Message = "Shipment not found." });
             }
 
-            var totalAmount = _pricingService.CalculateShipmentTotal(shipment);
+            var totalAmount = await _pricingService.CalculateShipmentTotalAsync(shipment);
 
             var newPayment = new Payment
             {
-                ShipemntId = shipment.ShipmentId,
+                ShipemntId = shipment.Id,
                 Amount = totalAmount,
                 Status = PaymentStatus.Pending,
                 CreatedAt = DateTime.UtcNow,
@@ -51,7 +51,7 @@ namespace Logex.API.Controllers
 
             var createdPayment = await _paymentService.CreatePaymentAsync(newPayment);
 
-            shipment.PaymentId = createdPayment.PaymentId;
+            shipment.PaymentId = createdPayment.Id;
             await _shipmentService.Update(shipment);
 
             var origin = $"{Request.Scheme}://{Request.Host}";
@@ -64,7 +64,7 @@ namespace Logex.API.Controllers
             return Ok(
                 new PaymentInitiationResponse
                 {
-                    PaymentId = createdPayment.PaymentId,
+                    PaymentId = createdPayment.Id,
                     Amount = createdPayment.Amount,
                     CheckoutUrl = checkoutUrl,
                 }

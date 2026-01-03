@@ -4,6 +4,6 @@ namespace Logex.API.Services.Interfaces
 {
     public interface IPricingService
     {
-        decimal CalculateShipmentTotal(Shipment shipment);
+        Task<decimal> CalculateShipmentTotalAsync(Shipment shipment);
     }
 }

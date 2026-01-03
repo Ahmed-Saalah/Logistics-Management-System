@@ -2,13 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Logex.API.Configurations
+namespace Logex.API.Data.Configurations
 {
     public class Paymentconfiguration : IEntityTypeConfiguration<Payment>
     {
         public void Configure(EntityTypeBuilder<Payment> builder)
         {
-            builder.HasKey(p => p.PaymentId);
+            builder.HasKey(p => p.Id);
 
             builder.Property(p => p.Amount).IsRequired().HasPrecision(18, 2);
 

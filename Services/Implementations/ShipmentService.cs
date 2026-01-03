@@ -1,5 +1,5 @@
-﻿using Logex.API.DTOs;
-using Logex.API.DTOs.ShipmentDTOs;
+﻿using Logex.API.Common;
+using Logex.API.Dtos.ShipmentDtos;
 using Logex.API.Models;
 using Logex.API.Repository.Interfaces;
 using Logex.API.Services.Interfaces;
@@ -140,7 +140,7 @@ namespace Logex.API.Services.Implementations
 
         public async Task<ServiceResponse> Update(Shipment shipment)
         {
-            var existingShipment = await _shipmentRepository.GetByIdAsync(shipment.ShipmentId);
+            var existingShipment = await _shipmentRepository.GetByIdAsync(shipment.Id);
 
             if (existingShipment == null)
             {

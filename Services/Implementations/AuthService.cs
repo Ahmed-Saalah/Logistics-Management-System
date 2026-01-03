@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
-using Logex.API.DTOs;
-using Logex.API.DTOs.IdentityDTOs;
+using Logex.API.Common;
+using Logex.API.Dtos.IdentityDtos;
 using Logex.API.Models;
 using Logex.API.Services.Interfaces;
 
@@ -9,11 +9,11 @@ namespace Logex.API.Services.Implementations
     public class AuthService(
         ITokenManagement tokenManagement,
         IUserManagement userManagement,
-        IValidator<RegisterDTO> createUserValidator,
-        IValidator<LoginDTO> loginUserValidator
+        IValidator<RegisterDto> createUserValidator,
+        IValidator<LoginDto> loginUserValidator
     ) : IAuthService
     {
-        public async Task<ServiceResponse> Register(RegisterDTO user)
+        public async Task<ServiceResponse> Register(RegisterDto user)
         {
             var validationResult = await createUserValidator.ValidateAsync(user);
 
@@ -46,7 +46,7 @@ namespace Logex.API.Services.Implementations
             return new ServiceResponse { Success = true, Message = "Account created" };
         }
 
-        public async Task<LoginResponse> Login(LoginDTO user)
+        public async Task<LoginResponse> Login(LoginDto user)
         {
             var validationResult = await loginUserValidator.ValidateAsync(user);
             if (!validationResult.IsValid)

@@ -1,4 +1,4 @@
-﻿namespace Logex.API.DTOs.PaymentDTOs
+﻿namespace Logex.API.Dtos.PaymentDtos
 {
     public class PaymentInitiationResponse
     {

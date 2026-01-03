@@ -2,13 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Logex.API.configurations
+namespace Logex.API.Data.Configurations
 {
     public class Shipmentconfiguration : IEntityTypeConfiguration<Shipment>
     {
         public void Configure(EntityTypeBuilder<Shipment> builder)
         {
-            builder.HasKey(s => s.ShipmentId);
+            builder.HasKey(s => s.Id);
 
             builder.HasIndex(builder => builder.TrackingNumber).IsUnique();
 

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Logex.API.configurations
+namespace Logex.API.Data.Configurations
 {
     public class ShipmentMethodConfiguration : IEntityTypeConfiguration<ShipmentMethod>
     {

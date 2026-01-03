@@ -17,12 +17,6 @@ namespace Logex.API
 
             var app = builder.Build();
 
-            using (var scope = app.Services.CreateScope())
-            {
-                var context = scope.ServiceProvider.GetRequiredService<DbContext.AppDbContext>();
-                await Configurations.Seed.ShipmentMethodSeder.SeedAsync(context);
-            }
-
             StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 
             // Configure the HTTP request pipeline.

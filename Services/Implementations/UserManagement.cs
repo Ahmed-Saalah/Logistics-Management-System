@@ -1,5 +1,5 @@
 ﻿using System.Security.Claims;
-using Logex.API.DbContext;
+using Logex.API.Data;
 using Logex.API.Models;
 using Logex.API.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;

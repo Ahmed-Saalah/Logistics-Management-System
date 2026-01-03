@@ -4,7 +4,7 @@ namespace Logex.API.Models
 {
     public class Payment
     {
-        public int PaymentId { get; set; }
+        public int Id { get; set; }
         public decimal Amount { get; set; }
         public string? CardNumber { get; set; }
         public string? CVC { get; set; }

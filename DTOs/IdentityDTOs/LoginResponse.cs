@@ -1,4 +1,4 @@
-﻿namespace Logex.API.DTOs.IdentityDTOs
+﻿namespace Logex.API.Dtos.IdentityDtos
 {
     public record LoginResponse(
         bool Success = false,

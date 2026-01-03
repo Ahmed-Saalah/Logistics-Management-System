@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Logex.API.Configurations
+namespace Logex.API.Data.Configurations
 {
     public class AppUserConfiguration : IEntityTypeConfiguration<User>
     {

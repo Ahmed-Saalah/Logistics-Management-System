@@ -1,9 +1,10 @@
-﻿using Logex.API.Models;
+﻿using Logex.API.Data.Seeding;
+using Logex.API.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Logex.API.DbContext
+namespace Logex.API.Data
 {
     public class AppDbContext : IdentityDbContext<User, IdentityRole<int>, int>
     {
@@ -14,11 +15,18 @@ namespace Logex.API.DbContext
         public DbSet<ShipmentMethod> ShipmentMethods { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
+        public DbSet<City> Cities { get; set; }
+        public DbSet<Zone> Zones { get; set; }
+        public DbSet<ZoneRate> ZoneRates { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
+
+            modelBuilder.SeedShipmentMethodsData();
+            modelBuilder.SeedLogisticsZonesData();
         }
     }
 }

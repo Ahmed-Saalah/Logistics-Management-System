@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Logex.API.DbContext;
+using Logex.API.Data;
 using Logex.API.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 

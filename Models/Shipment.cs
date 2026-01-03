@@ -4,7 +4,7 @@ namespace Logex.API.Models
 {
     public class Shipment
     {
-        public int ShipmentId { get; set; }
+        public int Id { get; set; }
 
         #region shipper and receiver
         public string ShipperName { get; set; }

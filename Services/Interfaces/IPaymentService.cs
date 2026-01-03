@@ -1,4 +1,4 @@
-﻿using Logex.API.DTOs;
+﻿using Logex.API.Common;
 using Logex.API.Models;
 
 namespace Logex.API.Services.Interfaces

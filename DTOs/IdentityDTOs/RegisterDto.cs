@@ -1,6 +1,6 @@
-﻿namespace Logex.API.DTOs.IdentityDTOs
+﻿namespace Logex.API.Dtos.IdentityDtos
 {
-    public class RegisterDTO
+    public class RegisterDto
     {
         public string Username { get; set; }
         public string Email { get; set; }

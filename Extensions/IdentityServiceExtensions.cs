@@ -1,5 +1,5 @@
 ﻿using System.Text;
-using Logex.API.DbContext;
+using Logex.API.Data;
 using Logex.API.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;

@@ -1,8 +1,8 @@
 ﻿using Logex.API.Models;
 
-namespace Logex.API.DTOs.ShipmentDTOs
+namespace Logex.API.Dtos.ShipmentDtos
 {
-    public class ShipmentWithRateDTO
+    public class ShipmentWithCalculatedRateDto
     {
         public int Quantity { get; set; }
         public int Weight { get; set; }

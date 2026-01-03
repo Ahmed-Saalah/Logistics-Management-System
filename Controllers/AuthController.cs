@@ -1,4 +1,4 @@
-﻿using Logex.API.DTOs.IdentityDTOs;
+﻿using Logex.API.Dtos.IdentityDtos;
 using Logex.API.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,7 +16,7 @@ namespace Logex.API.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(RegisterDTO registerUser)
+        public async Task<IActionResult> Register(RegisterDto registerUser)
         {
             var result = await _authService.Register(registerUser);
             if (result.Success)
@@ -28,7 +28,7 @@ namespace Logex.API.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginDTO loginUser)
+        public async Task<IActionResult> Login([FromBody] LoginDto loginUser)
         {
             var result = await _authService.Login(loginUser);
             if (result.Success)

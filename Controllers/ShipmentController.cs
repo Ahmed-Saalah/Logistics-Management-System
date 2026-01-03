@@ -1,4 +1,4 @@
-﻿using Logex.API.DTOs.ShipmentDTOs;
+﻿using Logex.API.Dtos.ShipmentDtos;
 using Logex.API.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -38,7 +38,7 @@ namespace Logex.API.Controllers
 
                 var shipmentDTO = new ShipmentDTO
                 {
-                    ShipmentId = shipemnt.ShipmentId,
+                    ShipmentId = shipemnt.Id,
                     ShipperName = shipemnt.ShipperName,
                     ReceiverName = shipemnt.ReceiverName,
                     CreatedAt = shipemnt.CreatedAt,
@@ -74,7 +74,7 @@ namespace Logex.API.Controllers
 
                 var shipmentDTO = new ShipmentDTO
                 {
-                    ShipmentId = shipemnt.ShipmentId,
+                    ShipmentId = shipemnt.Id,
                     ShipperName = shipemnt.ShipperName,
                     ReceiverName = shipemnt.ReceiverName,
                     CreatedAt = shipemnt.CreatedAt,
@@ -123,7 +123,7 @@ namespace Logex.API.Controllers
                     user.Id
                 );
 
-                return CreatedAtAction(nameof(GetById), new { id = shipment.ShipmentId }, shipment);
+                return CreatedAtAction(nameof(GetById), new { id = shipment.Id }, shipment);
             }
             catch (ArgumentException ex)
             {
@@ -196,7 +196,7 @@ namespace Logex.API.Controllers
 
         [HttpPost("rateCalculator")]
         public async Task<IActionResult> RateCalculatorAsync(
-            [FromBody] ShipmentWithRateDTO shipment
+            [FromBody] ShipmentWithCalculatedRateDto shipment
         )
         {
             try

@@ -2,7 +2,7 @@
 using System.Text.Json.Serialization;
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using Logex.API.DbContext;
+using Logex.API.Data;
 using Logex.API.Repository.Implementations;
 using Logex.API.Repository.Interfaces;
 using Logex.API.Services.Implementations;
@@ -19,12 +19,12 @@ namespace Logex.API.Extensions
             IConfiguration config
         )
         {
-            // 1. Database Setup
+            // Database Setup
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(config.GetConnectionString("ConnectionString"))
             );
 
-            // 2. Stripe Configuration
+            // Stripe Configuration
             services.AddOptions<StripeOptions>().Bind(config.GetSection("Stripe"));
             services.AddSingleton(resolver =>
                 resolver
@@ -33,12 +33,13 @@ namespace Logex.API.Extensions
             );
             services.AddScoped<IStripePaymentService, StripePaymentService>();
 
-            // 3. Repositories
+            // Repositories
             services.AddScoped<IShipmentRepository, ShipmentRepository>();
             services.AddScoped<IShipmentMethodRepository, ShipmentMethodRepository>();
             services.AddScoped<IPaymentRepository, PaymentRepository>();
+            services.AddScoped<IPricingRepository, PricingRepository>();
 
-            // 4. Domain Services
+            // Domain Services
             services.AddScoped<IShipmentService, ShipmentService>();
             services.AddScoped<IShipmentMethodService, ShipmentMethodService>();
             services.AddScoped<IPaymentService, PaymentService>();
@@ -46,8 +47,9 @@ namespace Logex.API.Extensions
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<ITokenManagement, TokenManagement>();
             services.AddScoped<IUserManagement, UserManagement>();
+            services.AddScoped<IPricingService, PricingService>();
 
-            // 5. Controllers & JSON Options
+            // Controllers & JSON Options
             services
                 .AddControllers()
                 .AddJsonOptions(options =>
@@ -55,7 +57,7 @@ namespace Logex.API.Extensions
                     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
                 });
 
-            // 6. CORS & Swagger
+            // CORS & Swagger
             services
                 .AddCors(options =>
                 {
